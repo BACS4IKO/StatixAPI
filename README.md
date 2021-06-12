@@ -16,6 +16,32 @@
 ***
 ## StatixBukkitApi
 ***
+### `Vault-API:`
+
+**StatixAPI** позволяет узнавать различные данные о игроке из Vault, а также делать с ними различные действия, например изменить баланс или провести какие-то действия с балансом или правами игрока.
+ 
+Совсем недавно в классе `ru.statix.api.bukkit.modules.vault.VaultBase` все упросил до упора:
+ 
+Узнать баланс игрока
+```java
+new BaseVault().getBalance("Ник игрока");
+```
+Получить префикс игрока
+```java
+new BaseVault().getPrefix("Ник игрока");
+```
+Получить суффикс (Ну или титул, или вовсе тайтл, кому как удобно) игрока
+```java
+new BaseVault().getSuffix("Ник игрока");
+```
+**Совет от автора** Можно сделать еще проще и удобнее:
+```java
+BaseVault vault = new BaseVault();
+   vault.giveMoney("Ник игрока", 3); //Добавить монет игроку
+   vault.addGroup("Ник игрока", "admin"); //Установить группу игроку
+   vault.removePerm("Ник игрока", "statixplayer.setup"); //Удалить право у игрока
+```
+* Здесь показано далеко не все возможности Vault-API, подробнее в `ru.statix.api.bukkit.modules.vault.VaultBase`
 ### `ProtocolLib-API:`
 
 ***
