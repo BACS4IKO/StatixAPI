@@ -1,4 +1,4 @@
-# StonlexAPI
+# StatixAPI
 
 ***
 ## Обратная связь
