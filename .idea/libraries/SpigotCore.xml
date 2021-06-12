@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SpigotCore">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/minecraft/Либы/SpigotCore.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/minecraft/Либы/SpigotCore.jar!/" />
+    </SOURCES>
+  </library>
+</component>
