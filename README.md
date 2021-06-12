@@ -17,7 +17,7 @@
 ## StatixBukkitApi
 ***
 ### `Vault-API:`
-
+***
 **StatixAPI** позволяет узнавать различные данные о игроке из Vault, а также делать с ними различные действия, например изменить баланс или провести какие-то действия с балансом или правами игрока.
  
 Совсем недавно в классе `ru.statix.api.bukkit.modules.vault.VaultBase` все упросил до упора:
@@ -42,6 +42,7 @@ BaseVault vault = new BaseVault();
    vault.removePerm("Ник игрока", "statixplayer.setup"); //Удалить право у игрока
 ```
 * Здесь показано далеко не все возможности Vault-API, подробнее в `ru.statix.api.bukkit.modules.vault.VaultBase`
+***
 ### `ProtocolLib-API:`
 
 ***
