@@ -89,10 +89,15 @@ FakePlayer fakePlayer = new FakePlayer("ItzStatix", location);
             hologram.setClickAction(player -> { //Действие при клике на голограмму
                 player.sendMessage("§7§l(§b§li§7§l) §fНаша группа - §bhttps://vk.com/clouteplay"); //Отправить сообщение игроку
             });
-            hologram.spawn(); //Спавним голограмму для всех
+            hologram.spawn(); //Спавним голограмму для всех в онлайне
         });
 ```
 ![image](https://user-images.githubusercontent.com/81032650/127160796-487264ad-8436-4f51-8c41-077032529e8b.png)
 
 
+Все голограммы кешируються, и если вы вдруг хотите сделать какое-то действие с голограммой за пределами метода с ней, можно воспользоваться **getCachedHologram**, для примера сейчас мы заспавним голограмму игроку, у которого её нету:
+```java
+//Вместо "DonateHologram" вы можете поставить своё название
+StatixAPI.getHologramManager().getCachedHologram("DonateHologram").addReceiver(p);
+```
 **Здесь по идее нужно дальше писать, но мне лень**
