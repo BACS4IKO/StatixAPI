@@ -70,4 +70,29 @@ FakePlayer fakePlayer = new FakePlayer("ItzStatix", location);
 
         fakePlayer.addReceiver(receiver); //Отправить FakePlayer игроку
 ```
+***
+- `Holograms`:
+
+**StatixAPI** позволяет создавать пакетные голограммы, как для всех игроков, так и только для определенных, сейчас на примере тестовой голограммы я это вам продемонструрую:
+```java
+        StatixAPI.getHologramManager().createHologram("DonateHologram", LocationUtil.stringToLocation(Main.getInstance().getConfig().getString("holo")), hologram -> {
+            //Создаем саму голограмму
+            hologram.addLine("§f§lCloute§b§lPlay");
+            hologram.addLine(" ");
+            hologram.addLine("§fЭто простая голограмма, созданная");
+            hologram.addLine("§fпри помощи §eStatixAPI§f, и призванная");
+            hologram.addLine("§fуговорить тебя подписаться на нашу");
+            hologram.addLine("§fгруппу §bВКонтакте");
+            hologram.addLine(" ");
+            hologram.addLine("§a§l> §aНажмите, для получения ссылки");
+
+            hologram.setClickAction(player -> { //Действие при клике на голограмму
+                player.sendMessage("§7§l(§b§li§7§l) §fНаша группа - §bhttps://vk.com/clouteplay"); //Отправить сообщение игроку
+            });
+            hologram.spawn(); //Спавним голограмму для всех
+        });
+```
+![image](https://user-images.githubusercontent.com/81032650/127160796-487264ad-8436-4f51-8c41-077032529e8b.png)
+
+
 **Здесь по идее нужно дальше писать, но мне лень**
