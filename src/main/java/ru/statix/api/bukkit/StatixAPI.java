@@ -90,7 +90,7 @@ public final class StatixAPI extends JavaPlugin {
      *
      * @param baseCommand - команда
      */
-    static void registerCommand(@NonNull BaseCommand<?> baseCommand) {
+    public static void registerCommand(@NonNull BaseCommand<?> baseCommand) {
         COMMAND_MANAGER.registerCommand(baseCommand, baseCommand.getName(), baseCommand.getAliases().toArray(new String[0]));
     }
 
@@ -102,7 +102,7 @@ public final class StatixAPI extends JavaPlugin {
      * @param commandName    - основная команда
      * @param commandAliases - дополнительные команды, обрабатывающие тот же класс (алиасы)
      */
-    static void registerCommand(@NonNull BaseCommand<?> baseCommand, @NonNull String commandName, @NonNull String... commandAliases) {
+    public static void registerCommand(@NonNull BaseCommand<?> baseCommand, @NonNull String commandName, @NonNull String... commandAliases) {
         COMMAND_MANAGER.registerCommand(baseCommand, commandName, commandAliases);
     }
 
@@ -113,7 +113,7 @@ public final class StatixAPI extends JavaPlugin {
      * @param plugin      - плагин, на который регистрировать команду
      * @param baseCommand - команда
      */
-    static void registerCommand(@NonNull Plugin plugin, @NonNull BaseCommand<?> baseCommand) {
+    public static void registerCommand(@NonNull Plugin plugin, @NonNull BaseCommand<?> baseCommand) {
         COMMAND_MANAGER.registerCommand(plugin, baseCommand, baseCommand.getName(), baseCommand.getAliases().toArray(new String[0]));
     }
 
@@ -126,7 +126,7 @@ public final class StatixAPI extends JavaPlugin {
      * @param commandName    - основная команда
      * @param commandAliases - дополнительные команды, обрабатывающие тот же класс (алиасы)
      */
-    static void registerCommand(@NonNull Plugin plugin, @NonNull BaseCommand<?> baseCommand, @NonNull String commandName, @NonNull String... commandAliases) {
+    public static void registerCommand(@NonNull Plugin plugin, @NonNull BaseCommand<?> baseCommand, @NonNull String commandName, @NonNull String... commandAliases) {
         COMMAND_MANAGER.registerCommand(plugin, baseCommand, commandName, commandAliases);
     }
 
