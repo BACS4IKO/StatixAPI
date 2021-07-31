@@ -20,6 +20,8 @@ public interface StatixHologram {
 
     void addLine(String line);
 
+    void addCleanLine();
+
     void modifyLine(int index, String line);
 
     void spawn();

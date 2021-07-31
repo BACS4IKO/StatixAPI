@@ -103,6 +103,25 @@ public final class HologramManager extends AbstractCacheManager<StatixHologram> 
             lines.add(line);
         }
 
+        public void addCleanLine() {
+            if (location == null || location.getWorld() == null) {
+                return;
+            }
+
+            FakeArmorStand stand = new FakeArmorStand(location.clone().add(0, -(distance * lines.size()), 0));
+
+            stand.setInvisible(true);
+            stand.setCustomNameVisible(false);
+            stand.setCustomName(""); //Ну по идее да
+
+            stand.setClickAction(clickAction);
+
+            Bukkit.getOnlinePlayers().forEach(stand::addReceiver);
+
+            entities.add(stand);
+            lines.add(" ");
+        }
+
         @Override
         public void modifyLine(int index, String line) {
             lines.set(index, line);

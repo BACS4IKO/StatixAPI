@@ -78,12 +78,12 @@ FakePlayer fakePlayer = new FakePlayer("ItzStatix", location);
         StatixAPI.getHologramManager().createHologram("DonateHologram", LocationUtil.stringToLocation(Main.getInstance().getConfig().getString("holo")), hologram -> {
             //Создаем саму голограмму
             hologram.addLine("§f§lCloute§b§lPlay");
-            hologram.addLine(" ");
+            hologram.addCleanLine(); //Пустая строка
             hologram.addLine("§fЭто простая голограмма, созданная");
             hologram.addLine("§fпри помощи §eStatixAPI§f, и призванная");
             hologram.addLine("§fуговорить тебя подписаться на нашу");
             hologram.addLine("§fгруппу §bВКонтакте");
-            hologram.addLine(" ");
+            hologram.addCleanLine(); //Пустая строка
             hologram.addLine("§a§l> §aНажмите, для получения ссылки");
 
             hologram.setClickAction(player -> { //Действие при клике на голограмму

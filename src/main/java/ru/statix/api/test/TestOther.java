@@ -56,7 +56,7 @@ public class TestOther {
             hologram.addLine("");
             hologram.addLine("§7Уникальная разработка, которая являеться форком");
             hologram.addLine("§7ранее популярной StatixAPI");
-            hologram.addLine("");
+            hologram.addCleanLine(); //пустая строка
             hologram.addLine("§c§lx §cНажмите, чтобы удалить голограмму.");
 
 
