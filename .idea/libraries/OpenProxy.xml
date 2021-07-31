@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="BungeeCore">
+  <library name="OpenProxy">
     <CLASSES>
-      <root url="jar://$USER_HOME$/minecraft/Либы/BungeeCore.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/OpenProxy.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
