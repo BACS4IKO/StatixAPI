@@ -47,6 +47,74 @@ BaseVault vault = new BaseVault();
 ```
 * Здесь показано далеко не все возможности Vault-API, подробнее в `ru.statix.api.bukkit.modules.vault.VaultBase`
 ***
+### `Commands:`
+
+Теперь создавать, регистрировать и использовать команды стало куда проще! В данной разработке доступна реализации как для мелких, так и для больших команд, которые содержат огромное количество данных, алиасов и подкоманд.
+
+Для начала создадим обычную команду при помощи `BaseCommand`, использовать которую может **ТОЛЬКО** игрок:
+```java
+public class TestCommand extends BaseCommand<Player> {
+
+    public TestCommand() {
+        super("test", "testing");
+    }
+    
+    @Override
+    protected void onExecute(Player player, String[] args) {
+        player.sendMessage(ChatColor.GREEN + "Лол, это работает, открываю инвентарь :)");
+        new TestPagedMenu().openInventory(player); //Открыть инвентарь игроку
+    }
+
+}
+```
+
+Ранее я говорил о создании больших команд, которые помогут сэкономить множество проверок и большого количества кода. Речь шла о `BaseMegaCommand`:
+```java
+public class MegaTestCommand
+        extends BaseMegaCommand<Player> {
+
+    public MegaTestCommand() {
+        super("megatest", "megatesting");
+    }
+
+    @Override
+    protected void onUsage(Player player) {
+        player.sendMessage("Список доступных подкоманд:");
+        player.sendMessage(" - /megatest online");
+        player.sendMessage(" - /megatest broadcast <сообщение>");
+    }
+
+    @CommandArgument(aliases = "players")
+    protected void online(Player player, String[] args) {
+        int playersCount = Bukkit.getOnlinePlayers().size();
+
+        String onlinePlayers = Joiner.on(", ").join(Bukkit.getOnlinePlayers().stream().map(Player::getDisplayName).collect(Collectors.toSet()));
+
+        player.sendMessage(String.format("Сейчас на сервере (%s): %s", playersCount, onlinePlayers));
+    }
+
+    @CommandArgument
+    protected void broadcast(Player player, String[] args) {
+
+        String broadcastMessage = ChatColor.translateAlternateColorCodes('&', Joiner.on(" ").join(args));
+
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+            onlinePlayer.sendMessage("MegaTest Broadcast > " + broadcastMessage);
+        }
+    }
+
+}
+```
+Каждый метод - это отдельная подкоманда, а аннотация `@CommandArgument` обозначает нужный метод подкомандой и избавит Вас от костылей, duplicated-кода, создав для определенной подкоманды указанные алиасы.
+
+Весь менеджмент над Bukkit API происходит через один класс - `ru.stonlex.bukkit.StatixAPI`
+
+Исходя из этого, регистрация команд происходит тоже через этот класс:
+```javascript
+StatixAPI.registerCommand(new ExamplePlayerCommand());
+```
+
+***
 ### `ProtocolLib-API:`
 
 ***

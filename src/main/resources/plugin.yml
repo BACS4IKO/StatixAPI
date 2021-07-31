@@ -1,6 +1,6 @@
 name: StatixAPI
 main: ru.statix.api.bukkit.StatixAPI
-version: 1.1
+version: 1.2
 author: ItzStatix
 
 depend:

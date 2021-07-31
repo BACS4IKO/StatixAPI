@@ -9,6 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import ru.statix.api.bukkit.modules.protocol.entity.impl.FakePlayer;
 import ru.statix.api.bukkit.particle.ParticleEffect;
 import ru.statix.api.bukkit.StatixAPI;
+import ru.statix.api.test.commands.TestCommand;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -72,18 +73,12 @@ public class TestOther {
         });
     }
 
-    /**
-     * Регистрация команд без вывода в plugin.yml,
-     * Где Вы еще такого могли увидеть?!
-     */
-    public void registerCommands() {
-        StatixAPI.getCommandManager()
-                .registerCommand(statixAPI, new TestCommand(), "test", "testing", "moontest");
-    }
 
     /**
      * А в этом простеньком методе мы узнаем глобальный онлайн сервера, через
      * пинг
+     *
+     * UPD: Эта хуйня очень криво работает, и у меня в планах её переписать
      */
 
     public int getGlobalOnline() {

@@ -8,10 +8,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import ru.statix.api.bukkit.StatixAPI;
 
-@RequiredArgsConstructor
 public final class MessagingManager {
     
-    private final StatixAPI statixAPI;
 
     public void redirectPlayer(Player player, String server) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
@@ -19,7 +17,7 @@ public final class MessagingManager {
         out.writeUTF("Connect");
         out.writeUTF(server);
 
-        player.sendPluginMessage(statixAPI, "BungeeCord", out.toByteArray());
+        player.sendPluginMessage(StatixAPI.getInstance(), "BungeeCord", out.toByteArray());
     }
 
     public void sendMessage(String playerName, String message) {
@@ -36,7 +34,7 @@ public final class MessagingManager {
         out.writeUTF(playerName);
         out.writeUTF(message);
 
-        statixAPI.getServer().sendPluginMessage(statixAPI, "BungeeCord", out.toByteArray());
+        StatixAPI.getInstance().getServer().sendPluginMessage(StatixAPI.getInstance(), "BungeeCord", out.toByteArray());
     }
 
     public void kickProxyPlayer(String playerName, String reason) {
@@ -46,7 +44,7 @@ public final class MessagingManager {
         out.writeUTF(playerName);
         out.writeUTF(ChatColor.translateAlternateColorCodes('&', reason));
 
-        statixAPI.getServer().sendPluginMessage(statixAPI, "BungeeCord", out.toByteArray());
+        StatixAPI.getInstance().getServer().sendPluginMessage(StatixAPI.getInstance(), "BungeeCord", out.toByteArray());
     }
 
     public ServerPing getServer(String address, int port) {
