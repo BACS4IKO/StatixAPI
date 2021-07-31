@@ -5,9 +5,12 @@
 
 * [**Discord**](https://discord.gg/SWZ2cPGnBT)
 * [**Telegram**](https://t.me/ItzStatix)
-* [**ВКонтакте**](https://vk.com/ItzStatix)
-
-
+* [**ВКонтакте**](https://vk.com/ItzStatix)\
+## Планы на API
+* Полностью изменить строение команд
+* Переписать кривой ServerPing
+* Изменения пока-что не планируються в (Билдере скорбордов и GameAPI)
+ 
 ***
 
 ## Основная информация
