@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import ru.statix.api.java.interfaces.Applicable;
+import ru.statix.api.base.interfaces.Applicable;
 
 @Getter
 @Setter

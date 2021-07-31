@@ -6,7 +6,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import ru.statix.api.java.interfaces.Builder;
+import ru.statix.api.base.interfaces.Builder;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -7,7 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 import ru.statix.api.bukkit.utility.WrapperUtil;
-import ru.statix.api.java.utility.ReflectionUtil;
+import ru.statix.api.base.utility.ReflectionUtil;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

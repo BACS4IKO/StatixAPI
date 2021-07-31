@@ -6,7 +6,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
-import ru.statix.api.java.interfaces.Applicable;
+import ru.statix.api.base.interfaces.Applicable;
 
 @RequiredArgsConstructor
 @Getter

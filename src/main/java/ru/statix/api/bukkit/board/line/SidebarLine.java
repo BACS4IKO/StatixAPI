@@ -7,9 +7,9 @@ import lombok.Getter;
 import lombok.NonNull;
 import org.bukkit.ChatColor;
 import ru.statix.api.bukkit.board.StatixSidebar;
-import ru.statix.api.bukkit.modules.protocol.packet.AbstractPacket;
-import ru.statix.api.bukkit.modules.protocol.packet.scoreboard.WrapperPlayServerScoreboardScore;
-import ru.statix.api.bukkit.modules.protocol.packet.scoreboard.WrapperPlayServerScoreboardTeam;
+import ru.statix.api.bukkit.protocollib.packet.AbstractPacket;
+import ru.statix.api.bukkit.protocollib.packet.scoreboard.WrapperPlayServerScoreboardScore;
+import ru.statix.api.bukkit.protocollib.packet.scoreboard.WrapperPlayServerScoreboardTeam;
 
 import java.util.Collections;
 import java.util.Iterator;

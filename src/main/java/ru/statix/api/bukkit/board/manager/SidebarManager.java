@@ -2,7 +2,7 @@ package ru.statix.api.bukkit.board.manager;
 
 import ru.statix.api.bukkit.board.StatixSidebar;
 import ru.statix.api.bukkit.board.StatixSidebarBuilder;
-import ru.statix.api.java.types.AbstractCacheManager;
+import ru.statix.api.base.types.AbstractCacheManager;
 
 public final class SidebarManager extends AbstractCacheManager<StatixSidebar> {
 

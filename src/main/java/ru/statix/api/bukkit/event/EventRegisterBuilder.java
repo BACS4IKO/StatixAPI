@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
 import ru.statix.api.bukkit.StatixAPI;
-import ru.statix.api.java.interfaces.Applicable;
-import ru.statix.api.java.interfaces.Builder;
+import ru.statix.api.base.interfaces.Applicable;
+import ru.statix.api.base.interfaces.Builder;
 
 @RequiredArgsConstructor
 public final class EventRegisterBuilder<E extends Event> implements Builder<EventRegister<E>> {

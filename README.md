@@ -56,7 +56,7 @@ BaseVault vault = new BaseVault();
 public class TestCommand extends BaseCommand<Player> {
 
     public TestCommand() {
-        super("test", "testing");
+        super("example", "testing");
     }
     
     @Override
@@ -122,7 +122,7 @@ StatixAPI.registerCommand(new ExamplePlayerCommand());
 
 **StatixAPI** позволяет создавать различных entity на пакетах:
 
-Сейчас на примере `ru.statix.api.bukkit.protocol.entity.impl.FakePlayer` мы попытаемся в этом убедиться:
+Сейчас на примере `ru.statix.api.bukkit.protocollib.entity.impl.FakePlayer` мы попытаемся в этом убедиться:
 ```java
 FakePlayer fakePlayer = new FakePlayer("ItzStatix", location);
         //Повернуть голову и тело FakePlayer в сторону того, кому отправляем NPC

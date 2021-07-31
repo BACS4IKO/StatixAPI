@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.WorldBorder;
 import org.bukkit.entity.Player;
 import ru.statix.api.bukkit.game.cage.GameCage;
-import ru.statix.api.bukkit.modules.protocol.packet.world.WrapperPlayServerWorldBorder;
+import ru.statix.api.bukkit.protocollib.packet.world.WrapperPlayServerWorldBorder;
 
 import java.util.HashMap;
 import java.util.Map;

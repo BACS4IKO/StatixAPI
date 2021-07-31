@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import ru.statix.api.bukkit.StatixAPI;
-import ru.statix.api.java.interfaces.Applicable;
-import ru.statix.api.java.interfaces.Builder;
+import ru.statix.api.base.interfaces.Applicable;
+import ru.statix.api.base.interfaces.Builder;
 
 @AllArgsConstructor
 public final class PerkBuilder implements Builder<StatixPerk> {

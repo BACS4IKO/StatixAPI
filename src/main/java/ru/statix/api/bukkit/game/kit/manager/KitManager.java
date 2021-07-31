@@ -3,7 +3,7 @@ package ru.statix.api.bukkit.game.kit.manager;
 import ru.statix.api.bukkit.game.kit.KitBuilder;
 import ru.statix.api.bukkit.game.kit.KitInfo;
 import ru.statix.api.bukkit.game.kit.StatixKit;
-import ru.statix.api.java.types.AbstractCacheManager;
+import ru.statix.api.base.types.AbstractCacheManager;
 
 public final class KitManager extends AbstractCacheManager<StatixKit> {
 

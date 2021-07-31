@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import ru.statix.api.bukkit.StatixAPI;
-import ru.statix.api.bukkit.modules.vault.VaultPlayer;
+import ru.statix.api.bukkit.vault.VaultPlayer;
 
 public class PlayerListener implements Listener {
 

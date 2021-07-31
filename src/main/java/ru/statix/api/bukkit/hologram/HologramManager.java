@@ -4,9 +4,9 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import ru.statix.api.bukkit.modules.protocol.entity.impl.FakeArmorStand;
-import ru.statix.api.java.types.AbstractCacheManager;
-import ru.statix.api.java.interfaces.Applicable;
+import ru.statix.api.bukkit.protocollib.entity.impl.FakeArmorStand;
+import ru.statix.api.base.types.AbstractCacheManager;
+import ru.statix.api.base.interfaces.Applicable;
 
 import java.util.ArrayList;
 import java.util.List;

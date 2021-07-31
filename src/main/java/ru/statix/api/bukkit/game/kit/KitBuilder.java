@@ -3,7 +3,7 @@ package ru.statix.api.bukkit.game.kit;
 import lombok.AllArgsConstructor;
 import org.bukkit.inventory.ItemStack;
 import ru.statix.api.bukkit.StatixAPI;
-import ru.statix.api.java.interfaces.Builder;
+import ru.statix.api.base.interfaces.Builder;
 
 import java.util.ArrayList;
 import java.util.List;
