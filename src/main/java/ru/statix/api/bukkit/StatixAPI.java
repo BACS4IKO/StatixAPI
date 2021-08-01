@@ -72,6 +72,10 @@ public final class StatixAPI extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getLogger().info("Successful register Listeners");
         messagingManager = new MessagingManager();
+        /**
+         * @ItzStatix: в ближайшее время изменений в VaultManager не планируется,
+         * ведь меня там все устраивает. Если вы хотите чтобы я что-то добавил - пишите в ВК.
+         */
         vaultManager = new VaultManager();
 
         ProtocolLibrary.getProtocolManager().addPacketListener(new FakeEntityClickListener(this));

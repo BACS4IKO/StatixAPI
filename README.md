@@ -45,7 +45,7 @@ BaseVault vault = new BaseVault();
    vault.addGroup("Ник игрока", "admin"); //Установить группу игроку
    vault.removePerm("Ник игрока", "statixplayer.setup"); //Удалить право у игрока
 ```
-* Здесь показано далеко не все возможности Vault-API, подробнее в `ru.statix.api.bukkit.modules.vault.VaultBase`
+* Здесь показано далеко не все возможности Vault-API, подробнее в `ru.statix.api.bukkit.vault.VaultBase`
 ***
 ### `Commands:`
 
@@ -107,7 +107,7 @@ public class MegaTestCommand
 ```
 Каждый метод - это отдельная подкоманда, а аннотация `@CommandArgument` обозначает нужный метод подкомандой и избавит Вас от костылей, duplicated-кода, создав для определенной подкоманды указанные алиасы.
 
-Весь менеджмент над Bukkit API происходит через один класс - `ru.stonlex.bukkit.StatixAPI`
+Весь менеджмент над Bukkit API происходит через один класс - `ru.statix.api.bukkit.StatixAPI`
 
 Исходя из этого, регистрация команд происходит тоже через этот класс:
 ```javascript

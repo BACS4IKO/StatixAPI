@@ -1,11 +1,13 @@
 package ru.statix.api.example;
 
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import ru.statix.api.base.utility.DateUtil;
 import ru.statix.api.bukkit.protocollib.entity.impl.FakePlayer;
 import ru.statix.api.bukkit.particle.ParticleEffect;
 import ru.statix.api.bukkit.StatixAPI;
@@ -16,30 +18,22 @@ import java.util.concurrent.ThreadLocalRandom;
 public class TestOther {
 
     private final StatixAPI statixAPI;
-
     /**
      * В данном методе мы создаем Sidebar, или же Scoreboard, или
      * даже просто Board, кому как удобнее это называть :)
      */
     public void setScoreboard(Player player) {
-
-        //Создание и инициализация нужных переменн
-        ChatColor[] displayNameColors = new ChatColor[]{ChatColor.AQUA, ChatColor.BLUE};
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-
-        //Непосредственно создание самого скорборда
         StatixAPI.getSidebarManager().newBuilder()
-                .setDisplayName("§b§lMoonStudio")
-
-                .setLine(2, "§aТестовая строка 1")
-                .setLine(1, "§aТестовая строка 2")
-                .setLine(0, "§aТестовая строка 3")
+                .setDisplayName("§6§lItzStatix")
+                .setLine(5, "§7" + DateUtil.getFormatedDate())
+                .setLine(4, "")
+                .setLine(3, "§fРазработчик: §eStatix")
+                .setLine(2, "§fОнлайн: §e" + Bukkit.getOnlinePlayers().size())
+                .setLine(1, "")
+                .setLine(0, "§evk.com/itzstatix")
 
                 .newUpdater(update -> {
-                    ChatColor chatColor = displayNameColors[random.nextInt(displayNameColors.length)];
-
-                    update.setDisplayName(chatColor + "MoonStudio");
-                    update.setLine(2, chatColor + "Тестовая строка 1");
+                    update.setLine(2, "§fОнлайн: §e" + Bukkit.getOnlinePlayers().size());
                 }, 5)
 
                 .showToPlayer(player);

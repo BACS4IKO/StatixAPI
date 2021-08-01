@@ -1,5 +1,6 @@
 package ru.statix.api.bukkit.vault;
 
+
 public interface VaultPlayer {
 
     String getName();
