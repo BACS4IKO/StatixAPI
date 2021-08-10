@@ -7,6 +7,10 @@
 * [**Telegram**](https://t.me/ItzStatix)
 * [**ВКонтакте**](https://vk.com/ItzStatix)
 
+## Инструкция по использованию API / How to use this API
+* [**Wiki (EN)**](https://github.com/ItzStatix/StatixAPI/wiki)
+* [**README.md (RU)**](https://github.com/ItzStatix/StatixAPI/blob/master/README.md)
+
 ## Планы на API
 * Переписать кривой ServerPing
 * Переписать билдер Sideboard'ов
