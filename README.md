@@ -28,30 +28,37 @@
 ***
 ### `Vault-API:`
 ***
-**StatixAPI** позволяет узнавать различные данные о игроке из Vault, а также делать с ними различные действия, например изменить баланс или провести какие-то действия с балансом или правами игрока.
+Больше не нужно в каждом своем плагине инициализировать VaultEconomy и VaultChat, StatixAPI это может вам упростить! Сейчас я вам продемонстрирую что можно сделать с игроком через это API
  
-Совсем недавно в классе `ru.statix.api.bukkit.vault.VaultBase` все упросил до упора:
- 
-Узнать баланс игрока
+Доступ к VaultAPI (VaultPlayer) можно получить тремя способами, сейчас мы рассмотрим их все:
+
+### 1 | Через класс StatixAPI
+**StatixAPI** имеет главный класс, через который происходит большая часть менеджмента над StatixBukkitAPI - `ru.statix.api.bukkit.StatixAPI`, и обратиться к VaultManager можно тоже через него, например:
 ```java
-new BaseVault().getBalance("Ник игрока");
+StatixAPI.getVaultManager().getVaultPlayer(player.getName()).getPrefix();
 ```
-Получить префикс игрока
+Вы не хотите каждый раз писать это большое нагромождение? - Можно сделать ЕЩЁ ПРОЩЕ:
 ```java
-new BaseVault().getPrefix("Ник игрока");
+VaultPlayer vp = StatixAPI.getVaultManager().getVaultPlayer(player.getName()); // Получаем VaultPlayer через главный класс API
+vp.giveMoney(10); // Выдать 10 монет игроку
+vp.addPermission("statixapi.test"); // Добавить право игроку
+// Это далеко не все функции VaultPlayer, подробнее в классе: ru.statix.api.bukkit.vault.VaultPlayer
 ```
-Получить суффикс (Ну или титул, или вовсе тайтл, кому как удобно) игрока
+### 2 | Напрямую через VaultManager
+It is not necessary to refer to the StatixAPI class, you can do this directly through the VaultManager:
 ```java
-new BaseVault().getSuffix("Ник игрока");
+VaultPlayer vp = new VaultManager().getVaultPlayer(player); // Получаем VaultPlayer через главный VaultManager
+vp.addGroup("default"); // Добавляем игроку группу default
+// Это далеко не все функции VaultPlayer, подробнее в классе: ru.statix.api.bukkit.vault.VaultPlayer
 ```
-**Совет от автора** Можно сделать еще проще и удобнее:
+### 3 | Самый простой, через BaseVault
+You don't have to go to the VaultManager and get the VaultPlayer type, you can make it even easier!:
 ```java
-BaseVault vault = new BaseVault();
-   vault.giveMoney("Ник игрока", 3); //Добавить монет игроку
-   vault.addGroup("Ник игрока", "admin"); //Установить группу игроку
-   vault.removePerm("Ник игрока", "statixplayer.setup"); //Удалить право у игрока
+BaseVault bv = new BaseVault(); // Получам BaseVault
+bv.addGroup(player.getName(), "default"); // Добавляем игроку группу default
+// Это далеко не все функции VaultPlayer, подробнее в классе: ru.statix.api.bukkit.vault.BaseVault
 ```
-* Здесь показано далеко не все возможности Vault-API, подробнее в `ru.statix.api.bukkit.vault.VaultBase`
+
 ***
 ### `Commands:`
 
