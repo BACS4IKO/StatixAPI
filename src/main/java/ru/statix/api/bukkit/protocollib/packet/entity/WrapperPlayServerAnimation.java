@@ -3,9 +3,9 @@ package ru.statix.api.bukkit.protocollib.packet.entity;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import ru.statix.api.bukkit.protocollib.packet.AbstractPacket;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import ru.statix.api.bukkit.protocollib.packet.AbstractPacket;
 
 public class WrapperPlayServerAnimation extends AbstractPacket {
 	public static final PacketType TYPE = PacketType.Play.Server.ANIMATION;

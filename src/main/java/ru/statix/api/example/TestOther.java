@@ -135,10 +135,10 @@ public class TestOther {
 
         fakePlayer.setClickAction(player -> { //Действие при клике на FakePlayer
             player.sendMessage("Удаляю для вас голограмму, не надо было кликать с:"); //Отправить сообщение игроку, который кликнул по FakePlayer
-            fakePlayer.removeReceiver(player); //Скрыть FakePlayer от игрока, который кликнул по нему
+            fakePlayer.removeReceivers(player); //Скрыть FakePlayer от игрока, который кликнул по нему
         });
 
-        fakePlayer.addReceiver(receiver); //Отправить FakePlayer игроку
+        fakePlayer.addReceivers(receiver); //Отправить FakePlayer игроку
     }
 
 }

@@ -28,6 +28,7 @@ public class WrapperPlayServerScoreboardTeam extends AbstractPacket {
 	 * @author dmulloy2
 	 */
 	public static class Mode extends IntEnum {
+
 		public static final int TEAM_CREATED = 0;
 		public static final int TEAM_REMOVED = 1;
 		public static final int TEAM_UPDATED = 2;
@@ -35,6 +36,7 @@ public class WrapperPlayServerScoreboardTeam extends AbstractPacket {
 		public static final int PLAYERS_REMOVED = 4;
 
 		private static final Mode INSTANCE = new Mode();
+
 
 		public static Mode getInstance() {
 			return INSTANCE;
@@ -189,7 +191,6 @@ public class WrapperPlayServerScoreboardTeam extends AbstractPacket {
 	 *
 	 * @return The current Players
 	 */
-	@SuppressWarnings("unchecked")
 	public List<String> getPlayers() {
 		return (List<String>) handle.getSpecificModifier(Collection.class)
 				.read(0);

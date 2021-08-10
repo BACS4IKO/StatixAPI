@@ -1,26 +1,39 @@
 package ru.statix.api.base.utility;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import lombok.NonNull;
+import lombok.experimental.UtilityClass;
 
-public final class JsonUtil {
+@UtilityClass
+public class JsonUtil {
+
+    public final Gson GSON               = new Gson();
+    public final JsonParser JSON_PARSER  = new JsonParser();
+
 
     /**
-     * Опять же, этот код старый, и переписывать его мне было
-     * попросту лень, да и тем более, он прекрасно работает.
+     * Преобразовать объект в JSON
      *
-     * Если кому-то он неудобен, то система как бы не особо сложная,
-     * поэтому можно и самому ее написать
+     * @param object - объект
      */
-
-    private static final Gson gson = new Gson();
-
-
-    public static String toJson(Object o) {
-        return gson.toJson(o);
+    public String toJson(Object object) {
+        return GSON.toJson(object);
     }
 
-    public static <T> T fromJson(String json, Class<T> clazz) {
-        return gson.fromJson(json, clazz);
+    /**
+     * Преобразовать JSON обратно в объект
+     *
+     * @param json - JSON
+     * @param clazz - класс объекта
+     */
+    public <T> T fromJson(String json, Class<T> clazz) {
+        return GSON.fromJson(json, clazz);
+    }
+
+    public JsonElement parse(@NonNull String json) {
+        return JSON_PARSER.parse(json);
     }
 
 }

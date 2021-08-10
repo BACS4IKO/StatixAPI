@@ -1,27 +1,32 @@
 package ru.statix.api.bukkit.protocollib.entity.impl;
 
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
-import ru.statix.api.bukkit.protocollib.entity.StatixFakeEntity;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
+import ru.statix.api.bukkit.protocollib.entity.FakeBaseEntityBabbie;
 
-public class FakeVillager extends StatixFakeEntity {
+public class FakeVillager extends FakeBaseEntityBabbie {
 
     public FakeVillager(Location location) {
         super(EntityType.VILLAGER, location);
     }
 
-    public void setProfession(Profession profession) {
-        getDataWatcher().setObject(new WrappedDataWatcher.WrappedDataWatcherObject(13, INT_SERIALIZER), profession.ordinal());
-        sendDataWatcherPacket();
+    public synchronized void setProfession(Profession profession) {
+        broadcastDataWatcherObject(13, INT_SERIALIZER, profession.ordinal());
     }
 
-    public int getProfession() {
+    public synchronized int getProfession() {
         return getDataWatcher().getInteger(13);
     }
 
     public enum Profession {
-        FARMER, LIBRARIAN, PRIEST, BACKSMITH, BUTCHER, NITWIT
+
+        FARMER,
+        LIBRARIAN,
+        PRIEST,
+        BACKSMITH,
+        BUTCHER,
+        NITWIT
+        ;
     }
 
 }

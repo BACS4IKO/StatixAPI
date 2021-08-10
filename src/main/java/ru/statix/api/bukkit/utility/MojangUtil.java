@@ -1,10 +1,11 @@
 package ru.statix.api.bukkit.utility;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NonNull;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import org.apache.commons.lang.RandomStringUtils;
+import ru.statix.api.base.utility.JsonUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +14,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @UtilityClass
 public class MojangUtil {
@@ -22,81 +22,80 @@ public class MojangUtil {
      * Опять же, этот код старый, и переписывать его мне было
      * попросту лень, да и тем более, он прекрасно работает.
      *
-     * Если кому-то он неудобен, то система как бы не особо сложная, 
+     * Если кому-то он неудобен, то система как бы не особо сложная,
      * поэтому можно и самому ее написать
      */
 
-    private final String UUID_URL_STRING = "https://api.mojang.com/users/profiles/minecraft/";
-    private final String SKIN_URL_STRING = "https://sessionserver.mojang.com/session/minecraft/profile/";
+    protected final String UUID_URL_STRING = "https://api.mojang.com/users/profiles/minecraft/";
+    protected final String SKIN_URL_STRING = "https://sessionserver.mojang.com/session/minecraft/profile/";
 
-    private final Map<String, Skin> skinMap = new HashMap<>();
+    protected final Map<String, MojangSkin> mojangSkinMap = new HashMap<>();
 
-    private String readURL(String url) throws IOException {
-        final HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+
+    protected String readURL(String url) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+
         connection.setRequestMethod("GET");
-        connection.setRequestProperty("User-Agent", "StatixAPI");
+        connection.setRequestProperty("User-Agent", RandomStringUtils.randomAlphanumeric(16));
         connection.setConnectTimeout(5000);
         connection.setReadTimeout(5000);
         connection.setDoOutput(true);
 
-        final StringBuilder output = new StringBuilder();
-        final BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder output = new StringBuilder();
 
-        while (in.ready()) {
-            output.append(in.readLine());
+        try (InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream());
+             BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+
+            while (bufferedReader.ready()) {
+                output.append(bufferedReader.readLine());
+            }
         }
-        in.close();
+
         return output.toString();
     }
 
-    public Skin getSkinTextures(String name) {
-        Skin cachedSkin = skinMap.get(name);
+    @SneakyThrows
+    public MojangSkin getMojangSkin(@NonNull String playerSkin) {
+        MojangSkin mojangSkin = mojangSkinMap.get(playerSkin.toLowerCase());
 
-        if (cachedSkin != null && !cachedSkin.isExpired()) {
-            return cachedSkin;
+        if (mojangSkin != null && !mojangSkin.isExpired()) {
+            return mojangSkin;
         }
 
-        try {
-            final String playerUUID = new JsonParser()
-                    .parse(MojangUtil.readURL(UUID_URL_STRING + name))
-                    .getAsJsonObject()
-                    .get("id")
-                    .getAsString();
-            final String skinUrl = MojangUtil.readURL(SKIN_URL_STRING + playerUUID + "?unsigned=false");
+        String playerUUID = JsonUtil.parse(MojangUtil.readURL(UUID_URL_STRING + playerSkin))
 
-            final JsonObject textureProperty = new JsonParser()
-                    .parse(skinUrl)
-                    .getAsJsonObject()
-                    .get("properties")
-                    .getAsJsonArray()
-                    .get(0)
-                    .getAsJsonObject();
+                .getAsJsonObject()
+                .get("id")
+                .getAsString();
 
-            final String texture = textureProperty.get("value").getAsString();
-            final String signature = textureProperty.get("signature").getAsString();
+        String skinUrl = MojangUtil.readURL(SKIN_URL_STRING + playerUUID + "?unsigned=false");
 
-            Skin skin = new Skin(name, playerUUID, texture, signature, System.currentTimeMillis());
+        JsonObject textureProperty = JsonUtil.parse(skinUrl)
+                .getAsJsonObject()
 
-            skinMap.put(name, skin);
+                .get("properties")
+                .getAsJsonArray()
 
-            return skin;
-        } catch (IOException var8) {
-            return null;
-        }
+                .get(0)
+                .getAsJsonObject();
+
+        String texture = textureProperty.get("value").getAsString();
+        String signature = textureProperty.get("signature").getAsString();
+
+        mojangSkin = new MojangSkin(playerSkin, playerUUID, texture, signature, System.currentTimeMillis());
+
+        mojangSkinMap.put(playerSkin.toLowerCase(), mojangSkin);
+        return mojangSkin;
     }
 
-    @RequiredArgsConstructor
-    @Getter
-    public class Skin {
+    public String getOriginalName(@NonNull String playerName) {
+        try {
+            return JsonUtil.parse(MojangUtil.readURL(UUID_URL_STRING + playerName))
+                    .getAsJsonObject().get("name").getAsString();
+        }
 
-        private final String skinName;
-        private final String playerUUID;
-        private final String value;
-        private final String signature;
-        private final long timestamp;
-
-        public boolean isExpired() {
-            return System.currentTimeMillis() - this.timestamp > TimeUnit.HOURS.toMillis(12L);
+        catch (IOException exception) {
+            return playerName;
         }
     }
 

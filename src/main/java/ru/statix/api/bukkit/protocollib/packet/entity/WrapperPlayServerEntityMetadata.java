@@ -4,9 +4,9 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
-import ru.statix.api.bukkit.protocollib.packet.AbstractPacket;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import ru.statix.api.bukkit.protocollib.packet.AbstractPacket;
 
 import java.util.List;
 

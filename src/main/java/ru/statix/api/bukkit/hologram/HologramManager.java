@@ -97,7 +97,7 @@ public final class HologramManager extends AbstractCacheManager<StatixHologram> 
 
             stand.setClickAction(clickAction);
 
-            Bukkit.getOnlinePlayers().forEach(stand::addReceiver);
+            Bukkit.getOnlinePlayers().forEach(stand::addReceivers);
 
             entities.add(stand);
             lines.add(line);
@@ -116,7 +116,7 @@ public final class HologramManager extends AbstractCacheManager<StatixHologram> 
 
             stand.setClickAction(clickAction);
 
-            Bukkit.getOnlinePlayers().forEach(stand::addReceiver);
+            Bukkit.getOnlinePlayers().forEach(stand::addReceivers);
 
             entities.add(stand);
             lines.add(" ");
@@ -136,7 +136,7 @@ public final class HologramManager extends AbstractCacheManager<StatixHologram> 
 
         @Override
         public void addReceiver(Player player) {
-            entities.forEach(fakeArmorStand -> fakeArmorStand.addReceiver(player));
+            entities.forEach(fakeArmorStand -> fakeArmorStand.addReceivers(player));
         }
 
         @Override
@@ -148,7 +148,7 @@ public final class HologramManager extends AbstractCacheManager<StatixHologram> 
 
         @Override
         public void removeReceiver(Player player) {
-            entities.forEach(fakeArmorStand -> fakeArmorStand.removeReceiver(player));
+            entities.forEach(fakeArmorStand -> fakeArmorStand.removeReceivers(player));
         }
 
         @Override

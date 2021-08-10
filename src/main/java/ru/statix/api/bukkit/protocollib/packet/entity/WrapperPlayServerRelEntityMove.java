@@ -7,31 +7,34 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import ru.statix.api.bukkit.protocollib.packet.AbstractPacket;
 
-public class WrapperPlayServerEntityTeleport extends AbstractPacket {
-	public static final PacketType TYPE =
-			PacketType.Play.Server.ENTITY_TELEPORT;
+public class WrapperPlayServerRelEntityMove extends AbstractPacket {
 
-	public WrapperPlayServerEntityTeleport() {
+	public static final PacketType TYPE = PacketType.Play.Server.REL_ENTITY_MOVE;
+
+	public WrapperPlayServerRelEntityMove() {
 		super(new PacketContainer(TYPE), TYPE);
+
 		handle.getModifier().writeDefaults();
 	}
 
-	public WrapperPlayServerEntityTeleport(PacketContainer packet) {
+	public WrapperPlayServerRelEntityMove(PacketContainer packet) {
 		super(packet, TYPE);
 	}
 
 	/**
-	 * Retrieve entity ID.
-	 *
-	 * @return The current EID
+	 * Retrieve Entity ID.
+	 * <p>
+	 * Notes: entity's ID
+	 * 
+	 * @return The current Entity ID
 	 */
 	public int getEntityID() {
 		return handle.getIntegers().read(0);
 	}
 
 	/**
-	 * Set entity ID.
-	 *
+	 * Set Entity ID.
+	 * 
 	 * @param value - new value.
 	 */
 	public void setEntityID(int value) {
@@ -39,47 +42,77 @@ public class WrapperPlayServerEntityTeleport extends AbstractPacket {
 	}
 
 	/**
-	 * Retrieve the entity.
-	 *
+	 * Retrieve the entity of the painting that will be spawned.
+	 * 
 	 * @param world - the current world of the entity.
-	 * @return The entity.
+	 * @return The spawned entity.
 	 */
 	public Entity getEntity(World world) {
 		return handle.getEntityModifier(world).read(0);
 	}
 
 	/**
-	 * Retrieve the entity.
-	 *
+	 * Retrieve the entity of the painting that will be spawned.
+	 * 
 	 * @param event - the packet event.
-	 * @return The entity.
+	 * @return The spawned entity.
 	 */
 	public Entity getEntity(PacketEvent event) {
 		return getEntity(event.getPlayer().getWorld());
 	}
 
-	public double getX() {
-		return handle.getDoubles().read(0);
+	/**
+	 * Retrieve DX.
+	 *
+	 * @return The current DX
+	 */
+	public double getDx() {
+		return handle.getIntegers().read(0) / 4096D;
 	}
 
-	public void setX(double value) {
-		handle.getDoubles().write(0, value);
+	/**
+	 * Set DX.
+	 *
+	 * @param value - new value.
+	 */
+	public void setDx(double value) {
+		handle.getIntegers().write(0, (int) (value * 4096));
 	}
 
-	public double getY() {
-		return handle.getDoubles().read(1);
+	/**
+	 * Retrieve DY.
+	 *
+	 * @return The current DY
+	 */
+	public double getDy() {
+		return handle.getIntegers().read(1) / 4096D;
 	}
 
-	public void setY(double value) {
-		handle.getDoubles().write(1, value);
+	/**
+	 * Set DY.
+	 *
+	 * @param value - new value.
+	 */
+	public void setDy(double value) {
+		handle.getIntegers().write(1, (int) (value * 4096));
 	}
 
-	public double getZ() {
-		return handle.getDoubles().read(2);
+	/**
+	 * Retrieve DZ.
+	 *
+	 * @return The current DZ
+	 */
+	public double getDz() {
+		return handle.getIntegers().read(2) / 4096D;
 	}
 
-	public void setZ(double value) {
-		handle.getDoubles().write(2, value);
+	/**
+	 * Set DZ.
+	 *
+	 * @param value - new value.
+	 */
+	public void setDz(double value) {
+		handle.getIntegers().write(2, (int) (value * 4096));
 	}
 
 	/**
@@ -118,10 +151,20 @@ public class WrapperPlayServerEntityTeleport extends AbstractPacket {
 		handle.getBytes().write(1, (byte) (value * 256.0F / 360.0F));
 	}
 
+	/**
+	 * Retrieve On Ground.
+	 *
+	 * @return The current On Ground
+	 */
 	public boolean getOnGround() {
 		return handle.getBooleans().read(0);
 	}
 
+	/**
+	 * Set On Ground.
+	 *
+	 * @param value - new value.
+	 */
 	public void setOnGround(boolean value) {
 		handle.getBooleans().write(0, value);
 	}

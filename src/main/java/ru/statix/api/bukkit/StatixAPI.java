@@ -12,12 +12,12 @@ import ru.statix.api.bukkit.inventory.listener.SimpleInventoryListener;
 import ru.statix.api.bukkit.inventory.manager.BukkitInventoryManager;
 import ru.statix.api.bukkit.listeners.PlayerListener;
 import ru.statix.api.bukkit.messaging.MessagingManager;
-import ru.statix.api.bukkit.protocollib.entity.listeners.FakeEntityClickListener;
+import ru.statix.api.bukkit.protocollib.entity.listener.FakeEntityListener;
 import ru.statix.api.bukkit.board.manager.SidebarManager;
 import ru.statix.api.bukkit.event.EventRegisterManager;
 import ru.statix.api.bukkit.game.GameAPI;
+import ru.statix.api.bukkit.protocollib.team.ProtocolTeam;
 import ru.statix.api.bukkit.vault.VaultManager;
-import ru.statix.api.bukkit.tag.manager.TagManager;
 
 public final class StatixAPI extends JavaPlugin {
 
@@ -51,8 +51,7 @@ public final class StatixAPI extends JavaPlugin {
     @Getter
     private static final SidebarManager sidebarManager = new SidebarManager();
 
-    @Getter
-    private static final TagManager tagManager = new TagManager();
+
 
     @Getter
     private static MessagingManager messagingManager = null;
@@ -78,8 +77,15 @@ public final class StatixAPI extends JavaPlugin {
          */
         vaultManager = new VaultManager();
 
-        ProtocolLibrary.getProtocolManager().addPacketListener(new FakeEntityClickListener(this));
-        getLogger().info("Successful register PacketListener");
+        FakeEntityListener fakeEntityListener = new FakeEntityListener();
+
+        ProtocolLibrary.getProtocolManager().addPacketListener(fakeEntityListener);
+        getServer().getPluginManager().registerEvents(fakeEntityListener, this);
+        getLogger().info("Successful register FakeEntityListener");
+        getServer().getPluginManager().registerEvents(ProtocolTeam.TEAM_LISTENER, this);
+        getLogger().info("Successful register ProtocolTeamListener");
+
+
 
 
         //TEST API
