@@ -186,4 +186,149 @@ FakePlayer fakePlayer = new FakePlayer("ItzStatix", location);
 //Вместо "DonateHologram" вы можете поставить своё название
 StatixAPI.getHologramManager().getCachedHologram("DonateHologram").addReceiver(p);
 ```
+***
+- `FakeTeams-API`:
+
+**StonlexAPI** также позволяет создавать пакетные Team'ы с полной кастомизацией и настройкой.
+
+Рассмотрим простейший пример, где при заходе игрока в TabList и над головой будем создавать префикс и суффикс:
+```java
+@EventHandler
+public void onPlayerJoin(PlayerJoinEvent event) {
+    Player player = event.getPlayer();
+
+    ProtocolTeam protocolTeam = ProtocolTeam.get("Team_" + player.getName());
+    
+    protocolTeam.setPrefix("§e§lPREFIX §f");
+    protocolTeam.setSuffix(" §6§lSUFFIX");
+    
+    // ...
+}
+```
+
+После создания Team'ы, в нее необходимо добавить игроков, которым она будет принадлежать. Делается это через следующий метод:
+```java
+protocolTeam.addPlayerEntry(player);
+```
+
+После чего можно будет получать ProtocolTeam игрока по следующему методу:
+```java
+ProtocolTeam protocolTeam = ProtocolTeam.findEntry(player);
+```
+
+Так как ProtocolTeam является пакетным классом, следовательно, просто так он никому не будет виден (Кроме тех игроков, которым принадлежит Team). Это можно исправить двумя способами:
+
+**Способ 1**: Добавление ProtocolTeam в список авто-отрисовки всем игрокам онлайн, а также только зашедшим:
+```java
+protocolTeam.addAutoReceived();
+```
+**Способ 2**: Отдельное добавление игроков в список тех, кто может видеть ProtocolTeam:
+```java
+protocolTeam.addReceiver(player);
+```
+
+**Дополнение к Способу 2**: После чего можно будет получать ProtocolTeam игрока по следующему методу:
+```java
+ProtocolTeam protocolTeam = ProtocolTeam.findReceiver(player);
+```
+
+![ProtocolTeam](https://sun9-22.userapi.com/impg/rrg-k64fGpj-D3jCToMFrFTCdws2Q7hiOI3oqQ/W_tJlT2Uicg.jpg?size=559x283&quality=96&sign=e89e25a39621f59022fe4cbece4ee4d2&type=album)
+
+***
+### `Protocol Packets-API`:
+
+Создание пакетов происходит через фабрику `ru.statix.api.bukkit.protocollib.packet.ProtocolPacketFactory`
+
+Рассмотрим на примере пакета воспроизведения анимации "маха" рукой игрока
+
+```java
+WrapperPlayServerAnimation animationPacket 
+                = ProtocolPacketFactory.createAnimationPacket(player.getEntityId(), FakeEntityAnimation.SWING_MAIN_HAND.ordinal());
+```
+
+Пакет можно отправить как одному игроку отдельно:
+```java
+animationPacket.sendPacket(player);
+```
+
+Так и всем игрокам, что сейчас находятся на сервере:
+```java
+animationPacket.broadcastPacket();
+```
+
+
+***
+### `Scoreboards:`
+
+Статистику игроков, сервера, либо какую-то другую информацию все привыкли выводить в **Scoreboard**, а StonlexAPI упрощает их написание.
+
+Теперь буквально в пару строчек можно написать пакетные скорборды, которые не будут конфликтовать с тегами, или другими барами, созданными через **Scoreboard**.
+
+Сейчас на простом примере попробуем создать подобный Scoreboard
+
+Для начала необходимо создать Builder, по которому будут выстраиваться необходимые данные для Scoreboard:
+
+```java
+BaseScoreboardBuilder scoreboardBuilder = StatixAPI.newScoreboardBuilder();
+```
+
+Установим прототипную видимость нашему Scoreboard`у:
+
+**Что такое видимость Scoreboard?** - Это категория, по которой определяется, кому и как будет показываться этот интерфейс.
+
+- **PRIVATE** - Для каждого игрока Scoreboard выставляется отдельно. Если позже для игрока был выставлен новый Scoreboard, то предыдущий полностью для него очиститься, предоставив место для нового.
+- **PUBLIC** - Scoreboard автоматически выставляется для всех текущих игроков онлайн и для только зашедших. Если позже для игрока будет выставлен Scoreboard типа PROTOTYPE, то PUBLIC на время скроется до того момента, пока PROTOTYPE не будет удален для игрока. Но если еще позже для игрока будет выставлен Scoreboard типа PUBLIC, то предыдущий Scoreboard с типом PUBLIC будет полностью удален и очищен для того же игрока.
+```java
+scoreboardBuilder.scoreboardScope(BaseScoreboardScope.PRIVATE);
+```
+
+Затем, создадим одну из шаблонных анимаций для заголовка Scoreboard - **Flick Animation**:
+```java
+ScoreboardDisplayFlickAnimation displayFlickAnimation = new ScoreboardDisplayFlickAnimation();
+
+// Поочередно добавляем цвета, которые будут переливаться
+displayFlickAnimation.addColor(ChatColor.RED);
+displayFlickAnimation.addColor(ChatColor.GOLD);
+displayFlickAnimation.addColor(ChatColor.YELLOW);
+displayFlickAnimation.addColor(ChatColor.WHITE);
+
+// Устанавливаем текст для анимации
+displayFlickAnimation.addTextToAnimation("§lStonlexoBoard");
+```
+
+После чего можно установить эту анимацию в заголовок Scoreboard:
+```java
+scoreboardBuilder.scoreboardDisplay(displayFlickAnimation);
+```
+
+Далее, выставляем индексы линий и текст к каждой из них:
+```java
+scoreboardBuilder.scoreboardLine(6, ChatColor.GRAY + DateUtil.formatPattern(DateUtil.DEFAULT_DATE_PATTERN));
+scoreboardBuilder.scoreboardLine(5, "");
+scoreboardBuilder.scoreboardLine(4, "Ник: §c...");
+scoreboardBuilder.scoreboardLine(3, "Прыжков: §c...");
+scoreboardBuilder.scoreboardLine(2, "");
+scoreboardBuilder.scoreboardLine(1, "§eLol, ril is work ^)");
+```
+
+Вот и все, основные настройки для Scoreboard выставлены!
+
+Теперь для такого скорборда необходимо выставить автообновляющийся таймер, который будет каждые, например, 5 тиков, обновлять текст определенных строчек:
+```java
+scoreboardBuilder.scoreboardUpdater((baseScoreboard, player1) -> {
+    
+    baseScoreboard.updateScoreboardLine(4, player1, "Ник: §7" + player1.getName());
+    baseScoreboard.updateScoreboardLine(3, player1, "Прыжков: §a" + NumberUtil.spaced(player1.getStatistic(Statistic.JUMP)));
+
+}, 20);
+```
+
+Так как наш Scoreboard имеет видимость типа PROTOTYPE, то необходимо будет каждому игроку устанавливать его отдельно.
+
+Делается это следующим образом:
+```java
+scoreboardBuilder.build().setScoreboardToPlayer(player);
+```
+Scoreboard создан, полностью настроен и установлен игроку, что еще может быть лучше?
+***
 **Здесь по идее нужно дальше писать, но мне лень**

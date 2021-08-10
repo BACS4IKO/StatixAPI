@@ -8,9 +8,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import ru.statix.api.base.utility.DateUtil;
+import ru.statix.api.base.utility.NumberUtil;
 import ru.statix.api.bukkit.protocollib.entity.impl.FakePlayer;
 import ru.statix.api.bukkit.particle.ParticleEffect;
 import ru.statix.api.bukkit.StatixAPI;
+import ru.statix.api.bukkit.scoreboard.BaseScoreboardBuilder;
+import ru.statix.api.bukkit.scoreboard.BaseScoreboardScope;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -23,20 +26,23 @@ public class TestOther {
      * даже просто Board, кому как удобнее это называть :)
      */
     public void setScoreboard(Player player) {
-        StatixAPI.getSidebarManager().newBuilder()
-                .setDisplayName("§6§lItzStatix")
-                .setLine(5, "§7" + DateUtil.getFormatedDate())
-                .setLine(4, "")
-                .setLine(3, "§fРазработчик: §eStatix")
-                .setLine(2, "§fОнлайн: §e" + Bukkit.getOnlinePlayers().size())
-                .setLine(1, "")
-                .setLine(0, "§evk.com/itzstatix")
+        BaseScoreboardBuilder scoreboardBuilder = StatixAPI.newScoreboardBuilder();
+        scoreboardBuilder.scoreboardScope(BaseScoreboardScope.PRIVATE); // PRIVATE, PUBLIC
 
-                .newUpdater(update -> {
-                    update.setLine(2, "§fОнлайн: §e" + Bukkit.getOnlinePlayers().size());
-                }, 5)
+        scoreboardBuilder.scoreboardDisplay("§6§lItzStatix");
+        scoreboardBuilder.scoreboardLine(6, ChatColor.GRAY + DateUtil.getFormatedDate());
+        scoreboardBuilder.scoreboardLine(5, "");
+        scoreboardBuilder.scoreboardLine(4, "§fРазработчики: §eStatix, Stonlex");
+        scoreboardBuilder.scoreboardLine(3, "§fОнлайн: §e" + Bukkit.getOnlinePlayers().size());
+        scoreboardBuilder.scoreboardLine(2, "");
+        scoreboardBuilder.scoreboardLine(1, "§evk.com/itzstatix");
+        scoreboardBuilder.scoreboardUpdater((baseScoreboard, player1) -> {
 
-                .showToPlayer(player);
+            baseScoreboard.updateScoreboardLine(3, player1, "§fОнлайн: §e" + Bukkit.getOnlinePlayers().size());
+
+        }, 20);
+        scoreboardBuilder.build().setScoreboardToPlayer(player);
+
     }
 
 

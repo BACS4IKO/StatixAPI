@@ -13,10 +13,11 @@ import ru.statix.api.bukkit.inventory.manager.BukkitInventoryManager;
 import ru.statix.api.bukkit.listeners.PlayerListener;
 import ru.statix.api.bukkit.messaging.MessagingManager;
 import ru.statix.api.bukkit.protocollib.entity.listener.FakeEntityListener;
-import ru.statix.api.bukkit.board.manager.SidebarManager;
 import ru.statix.api.bukkit.event.EventRegisterManager;
 import ru.statix.api.bukkit.game.GameAPI;
 import ru.statix.api.bukkit.protocollib.team.ProtocolTeam;
+import ru.statix.api.bukkit.scoreboard.BaseScoreboardBuilder;
+import ru.statix.api.bukkit.scoreboard.listener.BaseScoreboardListener;
 import ru.statix.api.bukkit.vault.VaultManager;
 
 public final class StatixAPI extends JavaPlugin {
@@ -48,8 +49,6 @@ public final class StatixAPI extends JavaPlugin {
     @Getter
     private static final EventRegisterManager eventManager = new EventRegisterManager();
 
-    @Getter
-    private static final SidebarManager sidebarManager = new SidebarManager();
 
 
 
@@ -84,7 +83,8 @@ public final class StatixAPI extends JavaPlugin {
         getLogger().info("Successful register FakeEntityListener");
         getServer().getPluginManager().registerEvents(ProtocolTeam.TEAM_LISTENER, this);
         getLogger().info("Successful register ProtocolTeamListener");
-
+        getServer().getPluginManager().registerEvents(new BaseScoreboardListener(), this);
+        getLogger().info("Successful register ScoreboardListener");
 
 
 
@@ -138,6 +138,20 @@ public final class StatixAPI extends JavaPlugin {
      */
     public static void registerCommand(@NonNull Plugin plugin, @NonNull BaseCommand<?> baseCommand, @NonNull String commandName, @NonNull String... commandAliases) {
         COMMAND_MANAGER.registerCommand(plugin, baseCommand, commandName, commandAliases);
+    }
+    /**
+     * Создание по Builder паттерну
+     * с рандомным названием objective
+     */
+    public static BaseScoreboardBuilder newScoreboardBuilder() {
+        return BaseScoreboardBuilder.newScoreboardBuilder();
+    }
+
+    /**
+     * @param objectiveName - название scoreboard objective
+     */
+    public static BaseScoreboardBuilder newScoreboardBuilder(@NonNull String objectiveName) {
+        return BaseScoreboardBuilder.newScoreboardBuilder(objectiveName);
     }
 
 }
