@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+import java.util.List;
 import java.util.Objects;
 
 @UtilityClass
@@ -38,6 +39,28 @@ public class LocationUtil {
      */
     public boolean isDistance(Location location1, Location location2, double distance) {
         return location1.distance(location2) <= distance;
+    }
+
+    public Location getCenter(List<Location> locations) {
+        double x = 0;
+        double y = 0;
+        double z = 0;
+        World world = locations.stream().findFirst().get().getWorld();
+
+        float yaw = 0.0f;
+        float pitch = 0.0f;
+
+        for (Location location : locations) {
+            x += location.getX();
+            y += location.getY();
+            z += location.getZ();
+            yaw = location.getYaw();
+            pitch = location.getPitch();
+        }
+
+        int size = locations.size();
+
+        return new Location(world, x / size, y / size, z / size, yaw, pitch);
     }
 
 }

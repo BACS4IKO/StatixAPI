@@ -29,6 +29,7 @@ import ru.statix.api.bukkit.types.CuboidRegion;
 import ru.statix.api.bukkit.utility.ItemUtil;
 import ru.statix.api.bukkit.vault.VaultManager;
 import ru.statix.api.bukkit.vault.VaultPlayer;
+import ru.statix.api.example.commands.TestCommand;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -106,9 +107,9 @@ public final class StatixAPI extends JavaPlugin {
 
 
         //TEST API
-        //registerCommand(new TestCommand());
+        registerCommand(new TestCommand());
         //registerCommand(new TestMegaCommand());
-        //getLogger().info("Successful start register TestCommands");
+        getLogger().info("Successful start register TestCommands");
     }
 
 

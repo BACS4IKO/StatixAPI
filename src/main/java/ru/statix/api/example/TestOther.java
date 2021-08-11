@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import ru.statix.api.base.localization.Localization;
 import ru.statix.api.base.utility.DateUtil;
 import ru.statix.api.base.utility.NumberUtil;
 import ru.statix.api.bukkit.holographic.ProtocolHolographic;
@@ -64,8 +65,7 @@ public class TestOther {
         };
 
 // Добавление строк в голограмму
-        protocolHolographic.addClickLine(ChatColor.YELLOW + "Разработчик данной API", playerConsumer);
-        protocolHolographic.addClickLine(ChatColor.GREEN + "https://vk.com/itzstonlex", playerConsumer);
+        protocolHolographic.addClickLine(ChatColor.YELLOW + "WOW! THIS IS PROTOCOL HOLO", playerConsumer);
     }
 
 
@@ -109,6 +109,16 @@ public class TestOther {
 
         fakePlayer.addReceivers(receiver); //Отправить FakePlayer игроку
         //fakePlayer.spawn(); - Заспавнить для всех
+    }
+
+    /**
+     * Пример использования локализации
+     *
+     * @param p - игрок
+     * @param key - ключ локализации
+     */
+    public void sendLangMsg(Player p, String key) {
+        p.sendMessage(Localization.getString(0, key));
     }
 
 }
