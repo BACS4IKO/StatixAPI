@@ -1,9 +1,13 @@
 package ru.statix.api.example.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import ru.statix.api.bukkit.StatixAPI;
 import ru.statix.api.bukkit.command.BaseMegaCommand;
+import ru.statix.api.bukkit.holographic.ProtocolHolographic;
 import ru.statix.api.example.menu.TestMenu;
+
+import java.util.function.Consumer;
 
 public class TestMegaCommand extends BaseMegaCommand<Player> {
 
@@ -19,24 +23,29 @@ public class TestMegaCommand extends BaseMegaCommand<Player> {
     }
 
     @CommandArgument(aliases = "spawnholo")
-    protected void holo(Player player, String[] args) {
-        StatixAPI.getHologramManager().createHologram("testHologram", (player).getLocation(), hologram -> {
-            hologram.addLine("§6§lStatixAPI");
-            hologram.addCleanLine();
-            hologram.addLine("§7Уникальная разработка, StatixAPI");
-            hologram.addLine("§7которая создала для вас пакетую голограмму");
-            hologram.addCleanLine(); //пустая строка
-            hologram.addLine("§c§lx §cНажмите, чтобы удалить голограмму.");
+    protected void holo(Player p, String[] args) {
+        ProtocolHolographic hologram
+                = StatixAPI.createHologram(p.getLocation());
+        Consumer<Player> playerConsumer = player -> { //player = игрок, который кликнул
+            player.sendMessage("§cКлик по голограмме прошел, удаляем для вас голограмму З:"); //Отправитб сообщение игроку
+
+            hologram.removeReceivers(player);
+        };
+
+        hologram.addClickLine("§6§lStatixAPI", playerConsumer);
+        hologram.addEmptyLine();
+        hologram.addClickLine("§7Уникальная разработка, StatixAPI", playerConsumer);
+        hologram.addClickLine("§7которая создала для вас пакетую голограмму", playerConsumer);
+        hologram.addEmptyLine(); //пустая строка
+        hologram.addClickLine("§c§lx §cНажмите, чтобы удалить голограмму.", playerConsumer);
 
 
-            hologram.setClickAction(p -> { //Действие при клике на голограмму
-                p.sendMessage("§cКлик по голограмме прошел, удаляем для вас голограмму З:"); //Отправитб сообщение игроку
 
-                hologram.removeReceiver(p);
-            });
-            hologram.addReceiver(player); //Отправляем голграмму игроку
-        });
-        player.sendMessage("§6§lStatixAPI:: §fДля вас была создана голограмма :)");
+// Создание кликабельных голограмм
+
+            hologram.addViewers(p);
+
+        p.sendMessage("§6§lStatixAPI:: §fДля вас была создана голограмма :)");
     }
 
     @CommandArgument

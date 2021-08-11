@@ -137,7 +137,7 @@ public final class GameAPI {
 
         @Override
         public ItemStack getHead() {
-            return ItemUtil.getPlayerSkull(name);
+            return ItemUtil.getSkull(name);
         }
 
         @Override

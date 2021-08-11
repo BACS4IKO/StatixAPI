@@ -9,13 +9,16 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import ru.statix.api.base.utility.DateUtil;
 import ru.statix.api.base.utility.NumberUtil;
+import ru.statix.api.bukkit.holographic.ProtocolHolographic;
 import ru.statix.api.bukkit.protocollib.entity.impl.FakePlayer;
 import ru.statix.api.bukkit.particle.ParticleEffect;
 import ru.statix.api.bukkit.StatixAPI;
 import ru.statix.api.bukkit.scoreboard.BaseScoreboardBuilder;
 import ru.statix.api.bukkit.scoreboard.BaseScoreboardScope;
+import ru.statix.api.bukkit.utility.LocationUtil;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 public class TestOther {
@@ -51,60 +54,20 @@ public class TestOther {
      * голограмму, которая может быть видима только 1 игроку, а может и всем.
      */
     public void spawnHologram(Player receiver, Location location, boolean showForAll) {
-        StatixAPI.getHologramManager().createHologram("testHologram", location, hologram -> {
-            hologram.addLine("§6§lStatixAPI");
-            hologram.addLine("");
-            hologram.addLine("§7Уникальная разработка, которая являеться форком");
-            hologram.addLine("§7ранее популярной StatixAPI");
-            hologram.addCleanLine(); //пустая строка
-            hologram.addLine("§c§lx §cНажмите, чтобы удалить голограмму.");
+        ProtocolHolographic protocolHolographic
+                = StatixAPI.createHologram(location);
+// Создание кликабельных голограмм
+        Consumer<Player> playerConsumer = player -> { //player = игрок, который кликнул
 
+            player.sendMessage(ChatColor.GOLD + "Клик по голограмме прошел успешно!");
+            player.sendMessage(ChatColor.GOLD + "Локация: " + LocationUtil.locationToString(protocolHolographic.getLocation()));
+        };
 
-            hologram.setClickAction(player -> { //Действие при клике на голограмму
-                player.sendMessage("§cКлик по голограмме прошел, удаляем для вас голограмму З:"); //Отправитб сообщение игроку
-
-                hologram.removeReceiver(player);
-            });
-
-            //hologram.spawn(); //Спавн голограммы для всех
-
-            hologram.addReceiver(receiver); //Отправляем голграмму игроку
-        });
+// Добавление строк в голограмму
+        protocolHolographic.addClickLine(ChatColor.YELLOW + "Разработчик данной API", playerConsumer);
+        protocolHolographic.addClickLine(ChatColor.GREEN + "https://vk.com/itzstonlex", playerConsumer);
     }
 
-
-    /**
-     * А в этом простеньком методе мы узнаем глобальный онлайн сервера, через
-     * пинг
-     *
-     * UPD: Эта хуйня очень криво работает, и у меня в планах её переписать
-     */
-
-    public int getGlobalOnline() {
-        return StatixAPI.getMessagingManager()
-                .getServer("127.0.0.1", 25565).getPlayersOnline();
-    }
-
-    /**
-     * Данный метод отправляет игроку сообщение, даже если
-     * он находится на другом сервере.
-     */
-    public void sendMessage(Player player, String text) {
-        StatixAPI.getMessagingManager().sendMessage(player.getName(),
-                                                     ChatColor.translateAlternateColorCodes('&', text));
-    }
-
-    /**
-     * MessagingManager - очень интересный и уникальный класс, которому
-     * подвласно многое, и даже больше, чем кажется.
-     *
-     * Теперь без помощи самого BungeeCord и без его API,
-     * мы можем спокойно телепортировать игроков по разным
-     * серверм Proxy
-     */
-    public void redirectPlayer(Player player, String serverName) {
-        StatixAPI.getMessagingManager().redirectPlayer(player, serverName);
-    }
 
     /**
      * ParticleEffect - Удобный enum-класс с удобной работой
@@ -140,11 +103,12 @@ public class TestOther {
         fakePlayer.setInvisible(false); //Сделать видимым
 
         fakePlayer.setClickAction(player -> { //Действие при клике на FakePlayer
-            player.sendMessage("Удаляю для вас голограмму, не надо было кликать с:"); //Отправить сообщение игроку, который кликнул по FakePlayer
+            player.sendMessage("Удаляю для вас NPC, не надо было кликать с:"); //Отправить сообщение игроку, который кликнул по FakePlayer
             fakePlayer.removeReceivers(player); //Скрыть FakePlayer от игрока, который кликнул по нему
         });
 
         fakePlayer.addReceivers(receiver); //Отправить FakePlayer игроку
+        //fakePlayer.spawn(); - Заспавнить для всех
     }
 
 }

@@ -3,11 +3,18 @@ package ru.statix.api.bukkit;
 import com.comphenix.protocol.ProtocolLibrary;
 import lombok.Getter;
 import lombok.NonNull;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.statix.api.bukkit.command.BaseCommand;
 import ru.statix.api.bukkit.command.manager.CommandManager;
-import ru.statix.api.bukkit.hologram.HologramManager;
+import ru.statix.api.bukkit.holographic.ProtocolHolographic;
+import ru.statix.api.bukkit.holographic.impl.SimpleHolographic;
+import ru.statix.api.bukkit.holographic.manager.ProtocolHolographicManager;
 import ru.statix.api.bukkit.inventory.listener.SimpleInventoryListener;
 import ru.statix.api.bukkit.inventory.manager.BukkitInventoryManager;
 import ru.statix.api.bukkit.listeners.PlayerListener;
@@ -18,7 +25,13 @@ import ru.statix.api.bukkit.game.GameAPI;
 import ru.statix.api.bukkit.protocollib.team.ProtocolTeam;
 import ru.statix.api.bukkit.scoreboard.BaseScoreboardBuilder;
 import ru.statix.api.bukkit.scoreboard.listener.BaseScoreboardListener;
+import ru.statix.api.bukkit.types.CuboidRegion;
+import ru.statix.api.bukkit.utility.ItemUtil;
 import ru.statix.api.bukkit.vault.VaultManager;
+import ru.statix.api.bukkit.vault.VaultPlayer;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public final class StatixAPI extends JavaPlugin {
 
@@ -38,7 +51,7 @@ public final class StatixAPI extends JavaPlugin {
     private static final CommandManager COMMAND_MANAGER = CommandManager.INSTANCE;
 
     @Getter
-    private static final HologramManager hologramManager = new HologramManager();
+    private static final ProtocolHolographicManager hologramManager = (ProtocolHolographicManager.INSTANCE);
 
     @Getter
     private static final BukkitInventoryManager inventoryManager = BukkitInventoryManager.INSTANCE;
@@ -47,16 +60,22 @@ public final class StatixAPI extends JavaPlugin {
     private static final GameAPI gameAPI = new GameAPI();
 
     @Getter
-    private static final EventRegisterManager eventManager = new EventRegisterManager();
-
-
-
+    private static MessagingManager messagingManager = new MessagingManager();
 
     @Getter
-    private static MessagingManager messagingManager = null;
+    private static final EventRegisterManager eventManager = new EventRegisterManager();
+
+    @Getter
+    private static final Map<String, Integer> SERVERS_ONLINE_MAP = new HashMap<>();
+
+    /**
+     * Скоро верну уже новый Pinger
+     */
 
     @Getter
     private static VaultManager vaultManager = null;
+
+
 
     @Override
     public void onEnable() {
@@ -69,7 +88,6 @@ public final class StatixAPI extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SimpleInventoryListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getLogger().info("Successful register Listeners");
-        messagingManager = new MessagingManager();
         /**
          * @ItzStatix: в ближайшее время изменений в VaultManager не планируется,
          * ведь меня там все устраивает. Если вы хотите чтобы я что-то добавил - пишите в ВК.
@@ -87,11 +105,102 @@ public final class StatixAPI extends JavaPlugin {
         getLogger().info("Successful register ScoreboardListener");
 
 
-
         //TEST API
         //registerCommand(new TestCommand());
         //registerCommand(new TestMegaCommand());
         //getLogger().info("Successful start register TestCommands");
+    }
+
+
+
+
+    /**
+     * Получить онлайн сервера, имя которого
+     * указано в аргументе
+     *
+     * @param serverName - имя сервера
+     */
+    public static int getServerOnline(@NonNull String serverName) {
+        return SERVERS_ONLINE_MAP.getOrDefault(serverName.toLowerCase(), -1);
+    }
+
+    /**
+     * Получить общую сумму онлайна всех
+     * подключенных серверов по Bungee
+     *
+     * @return - Общий онлайн Bungee
+     */
+    public static int getGlobalOnline() {
+        return getServerOnline("GLOBAL");
+    }
+
+
+    /**
+     * Создать обыкновенную голограмму
+     *
+     * @param location - начальная локация голограммы
+     */
+    public static ProtocolHolographic createHologram(@NonNull Location location) {
+        return new SimpleHolographic(location);
+    }
+
+
+    /**
+     * Получить игрока с данными библиотеки Vault
+     *
+     * @param playerName - ник игрока
+     */
+    public static VaultPlayer getVaultPlayer(@NonNull String playerName) {
+        return getVaultManager().getVaultPlayer(playerName);
+    }
+
+    /**
+     * Получить игрока с данными библиотеки Vault
+     *
+     * @param player - онлайн игрок
+     */
+    public static VaultPlayer getVaultPlayer(@NonNull Player player) {
+        return getVaultManager().getVaultPlayer(player);
+    }
+
+
+    /**
+     * Создать кубоид блоков из двух по
+     * двум начальным локациям
+     *
+     * @param location1 - начальная локация №1
+     * @param location2 - начальная локация №2
+     */
+    public static CuboidRegion createCuboid(@NonNull Location location1, @NonNull Location location2) {
+        return new CuboidRegion(location1, location2);
+    }
+
+
+    /**
+     * Создание {@link ItemStack} по Builder паттерну
+     *
+     * @param material - начальный тип предмета
+     */
+    public static ItemUtil.ItemBuilder newItemBuilder(@NonNull Material material) {
+        return ItemUtil.newBuilder(material);
+    }
+
+    /**
+     * Создание {@link ItemStack} по Builder паттерну
+     *
+     * @param materialData - начальная дата предмета
+     */
+    public static ItemUtil.ItemBuilder newItemBuilder(@NonNull MaterialData materialData) {
+        return ItemUtil.newBuilder(materialData);
+    }
+
+    /**
+     * Создание {@link ItemStack} по Builder паттерну
+     *
+     * @param itemStack - готовый {@link ItemStack} на клонирование и переработку
+     */
+    public static ItemUtil.ItemBuilder newItemBuilder(@NonNull ItemStack itemStack) {
+        return ItemUtil.newBuilder(itemStack);
     }
 
     /**
