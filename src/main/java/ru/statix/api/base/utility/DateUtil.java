@@ -1,46 +1,46 @@
 package ru.statix.api.base.utility;
 
-import java.sql.Timestamp;
+import lombok.NonNull;
+import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
+
+import java.sql.Time;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@SuppressWarnings("All")
-public final class DateUtil {
+/**
+ * Класс взял из StonlexAPI - https://github.com/ItzStonlex/StonlexAPI
+ */
+@UtilityClass
+public class DateUtil {
 
-    /**
-     * Опять же, этот код старый, и переписывать его мне было
-     * попросту лень, да и тем более, он прекрасно работает.
-     *
-     * Если кому-то он неудобен, то система как бы не особо сложная,
-     * поэтому можно и самому ее написать
-     */
+    public static final Date DATE_FORMATTER = new Date();
 
-    public static String getDate(String pattern) {
-        return new SimpleDateFormat(pattern).format(new Date());
+    public static final String DEFAULT_DATETIME_PATTERN = ("dd.MM.yyyy h:mm:ss a");
+    public static final String DEFAULT_DATE_PATTERN     = ("EEE, MMM d, yyyy");
+    public static final String DEFAULT_TIME_PATTERN     = ("h:mm a");
+
+
+    public String formatPattern(@NonNull String pattern) {
+        return createDateFormat(pattern).format(DATE_FORMATTER);
     }
 
-    public static String getDate() {
-        return getDate("dd/MM/yyyy");
+    public String formatTime(long millis, @NonNull String pattern) {
+        return createDateFormat(pattern).format(new Time(millis));
     }
 
-    /**
-     * Более красивая дата, не плохо смотриться в скорбордах
-     */
-    public static String getFormatedDate() {
-        return getDate("EEE, MMM d, yyyy");
+
+    private DateFormat createDateFormat(@NonNull String pattern) {
+        return new SimpleDateFormat(pattern);
     }
 
-    public static String getDateWithTime() {
-        return getDate("dd/MM/yyyy HH:mm:ss");
-    }
 
-    public static Timestamp getTimestamp(long l) {
-        return new Timestamp(l);
-    }
+    @SneakyThrows
+    public Date parseDate(@NonNull String datePattern,
+                          @NonNull String formattedDate) {
 
-    public static long fromTimestamp(Timestamp timestamp) {
-        return timestamp.getTime();
+        return createDateFormat(datePattern).parse(formattedDate);
     }
-
 
 }

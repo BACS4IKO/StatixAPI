@@ -34,7 +34,7 @@ public class TestOther {
         scoreboardBuilder.scoreboardScope(BaseScoreboardScope.PRIVATE); // PRIVATE, PUBLIC
 
         scoreboardBuilder.scoreboardDisplay("§6§lItzStatix");
-        scoreboardBuilder.scoreboardLine(6, ChatColor.GRAY + DateUtil.getFormatedDate());
+        scoreboardBuilder.scoreboardLine(6, ChatColor.GRAY + DateUtil.formatPattern(DateUtil.DEFAULT_DATE_PATTERN));
         scoreboardBuilder.scoreboardLine(5, "");
         scoreboardBuilder.scoreboardLine(4, "§fРазработчики: §eStatix, Stonlex");
         scoreboardBuilder.scoreboardLine(3, "§fОнлайн: §e" + Bukkit.getOnlinePlayers().size());

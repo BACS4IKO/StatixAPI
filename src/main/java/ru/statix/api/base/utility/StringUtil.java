@@ -9,6 +9,9 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Эту штуку я подрезал из апишки ласта, может быть кому-то пригодиться
+ */
 @UtilityClass
 public class StringUtil {
     private final String PROGRESS_CURR_COLOR  = "§3";
