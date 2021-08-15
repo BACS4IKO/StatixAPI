@@ -69,10 +69,6 @@ public final class StatixAPI extends JavaPlugin {
     @Getter
     private static final Map<String, Integer> SERVERS_ONLINE_MAP = new HashMap<>();
 
-    /**
-     * Скоро верну уже новый Pinger
-     */
-
     @Getter
     private static VaultManager vaultManager = null;
 
