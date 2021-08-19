@@ -63,13 +63,13 @@ public interface BaseInventoryContainer {
     void setOriginalItem(int buttonSlot, ItemStack itemStack);
 
     /**
-     * Установить кликабельный предмет в разметку инвентаря
+     * Добавить кликабельный предмет в разметку инвентаря
      *
      * @param buttonSlot - слот предмета
      * @param itemStack - предмет
      * @param buttonAction - действие при клике на предмет
      */
-    void setClickItem(int buttonSlot,
+    void addItem(int buttonSlot,
                  ItemStack itemStack,
                  ClickableButtonAction buttonAction);
 

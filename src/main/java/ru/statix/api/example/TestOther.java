@@ -12,7 +12,6 @@ import ru.statix.api.base.utility.DateUtil;
 import ru.statix.api.base.utility.NumberUtil;
 import ru.statix.api.bukkit.holographic.ProtocolHolographic;
 import ru.statix.api.bukkit.protocollib.entity.impl.FakePlayer;
-import ru.statix.api.bukkit.particle.ParticleEffect;
 import ru.statix.api.bukkit.StatixAPI;
 import ru.statix.api.bukkit.scoreboard.BaseScoreboardBuilder;
 import ru.statix.api.bukkit.scoreboard.BaseScoreboardScope;
@@ -66,29 +65,9 @@ public class TestOther {
 
 // Добавление строк в голограмму
         protocolHolographic.addClickLine(ChatColor.YELLOW + "WOW! THIS IS PROTOCOL HOLO", playerConsumer);
+        protocolHolographic.setUpdater(10, protocolHolographic.getHolographicUpdater());
     }
 
-
-    /**
-     * ParticleEffect - Удобный enum-класс с удобной работой
-     *  с партиклами и эффектами, с их редактированием и видоизменением.
-     */
-    public void spawnCircle(Plugin plugin, Player player, Location location) {
-        new BukkitRunnable() {
-            double t = 0;
-
-            @Override
-            public void run() {
-                t += Math.PI / 16;
-
-                double x = 2 * Math.cos(t);
-                double z = 2 * Math.sin(t);
-
-                ParticleEffect.SPELL.display(0, 0, 0, 0, 3,
-                        location.clone().add(x, 0, z), player);
-            }
-        }.runTaskTimer(plugin, 0, 1);
-    }
 
     /**
      * Создание NPC при помощи пакетов

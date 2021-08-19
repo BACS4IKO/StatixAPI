@@ -3,6 +3,7 @@ package ru.statix.api.bukkit;
 import com.comphenix.protocol.ProtocolLibrary;
 import lombok.Getter;
 import lombok.NonNull;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,7 +19,6 @@ import ru.statix.api.bukkit.holographic.manager.ProtocolHolographicManager;
 import ru.statix.api.bukkit.inventory.listener.SimpleInventoryListener;
 import ru.statix.api.bukkit.inventory.manager.BukkitInventoryManager;
 import ru.statix.api.bukkit.listeners.PlayerListener;
-import ru.statix.api.bukkit.messaging.MessagingManager;
 import ru.statix.api.bukkit.protocollib.entity.listener.FakeEntityListener;
 import ru.statix.api.bukkit.event.EventRegisterManager;
 import ru.statix.api.bukkit.game.GameAPI;
@@ -61,9 +61,6 @@ public final class StatixAPI extends JavaPlugin {
     private static final GameAPI gameAPI = new GameAPI();
 
     @Getter
-    private static MessagingManager messagingManager = new MessagingManager();
-
-    @Getter
     private static final EventRegisterManager eventManager = new EventRegisterManager();
 
     @Getter
@@ -101,6 +98,9 @@ public final class StatixAPI extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BaseScoreboardListener(), this);
         getLogger().info("Successful register ScoreboardListener");
 
+        //Наверное да..
+        Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        getLogger().info("Successful start cho-to tam =)");
 
         //TEST API
         registerCommand(new TestCommand());

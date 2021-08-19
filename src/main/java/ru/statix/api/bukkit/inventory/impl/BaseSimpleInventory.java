@@ -136,7 +136,7 @@ public abstract class BaseSimpleInventory implements BaseInventory {
     }
 
     @Override
-    public void setClickItem(int buttonSlot,
+    public void addItem(int buttonSlot,
                         ItemStack itemStack,
                         ClickableButtonAction buttonAction) {
 

@@ -10,8 +10,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import ru.statix.api.bukkit.StatixAPI;
 import ru.statix.api.bukkit.game.listeners.*;
+import ru.statix.api.bukkit.pinger.Messager;
 import ru.statix.api.bukkit.utility.ItemUtil;
 import ru.statix.api.bukkit.game.cage.manager.CageManager;
 import ru.statix.api.bukkit.game.enums.GamePlayerType;
@@ -197,7 +197,9 @@ public final class GameAPI {
                 throw new RuntimeException("player is not online");
             }
 
-            StatixAPI.getMessagingManager().redirectPlayer(getPlayer(), gameSettings.LOBBY_SERVER_NAME);
+            // Будем думать что это работает
+            // (c) ItzStatix
+            Messager.redirect(getPlayer(), gameSettings.LOBBY_SERVER_NAME);
         }
 
     }

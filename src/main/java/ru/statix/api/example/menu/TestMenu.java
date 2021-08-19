@@ -14,7 +14,7 @@ public class TestMenu
 
     @Override
     public void drawInventory(Player player) {
-        setClickItem(5, ItemUtil.newBuilder(Material.STONE)
+        addItem(5, ItemUtil.newBuilder(Material.STONE)
                         .setName("§eБаклажан")
                         .build(),
 
@@ -24,7 +24,7 @@ public class TestMenu
                     player.closeInventory();
                 });
 
-        setClickItem(6, ItemUtil.newBuilder(Material.CHEST)
+        addItem(6, ItemUtil.newBuilder(Material.CHEST)
                         .setName("§aОбновить инвентарь")
                         .build(),
 
