@@ -1,144 +1,47 @@
 package ru.statix.api.bukkit.vault;
 
+import lombok.AccessLevel;
 import lombok.Getter;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.entity.Player;
-import ru.statix.api.bukkit.vault.providers.VaultChatManager;
-import ru.statix.api.base.types.AbstractCacheManager;
-import ru.statix.api.bukkit.vault.providers.VaultEconomyManager;
-import ru.statix.api.bukkit.vault.providers.VaultPermissionManager;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
-public final class VaultManager extends AbstractCacheManager<VaultPlayer> {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class VaultManager {
 
-    private final VaultEconomyManager economyManager       = new VaultEconomyManager();
-    private final VaultPermissionManager permissionManager = new VaultPermissionManager();
-    private final VaultChatManager chatManager             = new VaultChatManager();
+    public static final VaultManager INSTANCE = new VaultManager();
+
+
+    protected final VaultProvider<Economy> economyProvider        = new VaultProvider<>(Economy.class);
+    protected final VaultProvider<Permission> permissionProvider  = new VaultProvider<>(Permission.class);
+    protected final VaultProvider<Chat> chatProvider              = new VaultProvider<>(Chat.class);
+
+    protected final Map<String, VaultPlayer> vaultPlayerMap = new HashMap<>();
+
 
     /**
-     * Получение кешированного VaultPlayer'а по нику игрока
+     * Получить Vault-игрока по его нику
      *
-     * Если его нет в мапе, то он автоматически туда добавляется
+     * @param playerName - ник игрока
      */
-    public VaultPlayer getVaultPlayer(String playerName) {
-        return getComputeCache(playerName.toLowerCase(), VaultPlayerImpl::new);
+    public VaultPlayer getVaultPlayer(@NonNull String playerName) {
+        return vaultPlayerMap.computeIfAbsent(playerName.toLowerCase(), VaultPlayer::new);
     }
 
     /**
-     * Получение кешированного VaultPlayer'а по игроку
+     * Получить Vault-игрока по игроку
      *
-     * Если его нет в мапе, то он автоматически туда добавляется
+     * @param player - игрок
      */
-    public VaultPlayer getVaultPlayer(Player player) {
-        return getVaultPlayer(player.getName());
-    }
-
-
-    /**
-     * Класс, наследующий VaultPlayer
-     *
-     * Через него проходят все получения и операции с Vault'ом
-     */
-    private class VaultPlayerImpl implements VaultPlayer {
-
-        private final String playerName;
-
-        private final OfflinePlayer offlinePlayer;
-
-        public VaultPlayerImpl(String playerName) {
-            this.playerName = playerName;
-            this.offlinePlayer = Bukkit.getOfflinePlayer(playerName);
-        }
-
-        @Override
-        public String getName() {
-            return playerName;
-        }
-
-        @Override
-        public String getPrefix() {
-            return chatManager.getVaultChat().getPlayerPrefix((String) null, playerName);
-        }
-
-        @Override
-        public String getSuffix() {
-            return chatManager.getVaultChat().getPlayerSuffix((String) null, playerName);
-        }
-
-        @Override
-        public String getGroupPrefix() {
-            return chatManager.getVaultChat().getGroupPrefix((String) null, getPrimaryGroup());
-        }
-
-        @Override
-        public String getGroupSuffix() {
-            return chatManager.getVaultChat().getGroupSuffix((String) null, getPrimaryGroup());
-        }
-
-        @Override
-        public String getPrimaryGroup() {
-            return chatManager.getVaultChat().getPrimaryGroup((String) null, playerName);
-        }
-
-        @Override
-        public double getBalance() {
-            return economyManager.getVaultEconomy().getBalance(offlinePlayer);
-        }
-
-        @Override
-        public void setBalance(double balance) {
-            if (balance > getBalance()) {
-                giveMoney(balance - getBalance());
-            } else if (balance < getBalance()) {
-                takeMoney(getBalance() - balance);
-            }
-        }
-
-        @Override
-        public void giveMoney(double moneyCount) {
-            economyManager.getVaultEconomy().depositPlayer(offlinePlayer, moneyCount);
-        }
-
-        @Override
-        public void takeMoney(double moneyCount) {
-            economyManager.getVaultEconomy().withdrawPlayer(offlinePlayer, moneyCount);
-        }
-
-        @Override
-        public String[] getGroups() {
-            return chatManager.getVaultChat().getPlayerGroups(null, offlinePlayer);
-        }
-
-        @Override
-        public void addPermission(String permission) {
-            permissionManager.getVaultPermission().playerAdd(null, offlinePlayer, permission);
-        }
-
-        @Override
-        public void removePermission(String permission) {
-            permissionManager.getVaultPermission().playerRemove(null, offlinePlayer, permission);
-        }
-
-        @Override
-        public void addGroup(String group) {
-            permissionManager.getVaultPermission().groupAdd((String) null, playerName, group);
-        }
-
-        @Override
-        public void removeGroup(String group) {
-            permissionManager.getVaultPermission().groupRemove((String) null, playerName, group);
-        }
-
-        @Override
-        public boolean hasGroup(String group) {
-            return permissionManager.getVaultPermission().groupHas((String) null, playerName, group);
-        }
-
-        @Override
-        public boolean hasPermission(String permission) {
-            return permissionManager.getVaultPermission().playerHas(null, offlinePlayer, permission);
-        }
+    public VaultPlayer getVaultPlayer(@NonNull Player player) {
+        return vaultPlayerMap.computeIfAbsent(player.getName().toLowerCase(), VaultPlayer::new);
     }
 
 }

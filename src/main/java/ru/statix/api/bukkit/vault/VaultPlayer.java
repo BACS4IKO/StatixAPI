@@ -1,50 +1,93 @@
 package ru.statix.api.bukkit.vault;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-public interface VaultPlayer {
+@RequiredArgsConstructor
+public class VaultPlayer {
 
-    String getName();
+    @Getter
+    private final String playerName;
 
-    /**
-     * Раздел VaultChat
-     */
-    String getPrefix();
 
-    String getSuffix();
+    public String getDisplayName() {
+        return getPrefix() + playerName + getSuffix();
+    }
 
-    String getGroupPrefix();
+    public String getPrefix() {
+        return VaultManager.INSTANCE.getChatProvider().getProvider().getPlayerPrefix((String)null, playerName);
+    }
 
-    String getGroupSuffix();
+    public String getGroupPrefix() {
+        return VaultManager.INSTANCE.getChatProvider().getProvider().getGroupPrefix((String)null, playerName);
+    }
 
-    /**
-     * Раздел VaultEconomy
-     */
-    double getBalance();
+    public String getSuffix() {
+        return VaultManager.INSTANCE.getChatProvider().getProvider().getPlayerSuffix((String)null, playerName);
+    }
 
-    void setBalance(double balance);
+    public String getGroupSuffix() {
+        return VaultManager.INSTANCE.getChatProvider().getProvider().getGroupSuffix((String)null, playerName);
+    }
 
-    void giveMoney(double moneyCount);
+    public String getPrimaryGroup() {
+        return VaultManager.INSTANCE.getPermissionProvider().getProvider().getPrimaryGroup((String)null, playerName);
+    }
 
-    void takeMoney(double moneyCount);
+    public String[] getGroups() {
+        return VaultManager.INSTANCE.getPermissionProvider().getProvider().getPlayerGroups((String)null, playerName);
+    }
 
-    /**
-     * Раздел VaultPermission
-     * @return
-     */
+    public double getBalance() {
+        return VaultManager.INSTANCE.getEconomyProvider().getProvider().getBalance(playerName);
+    }
 
-    String[] getGroups();
+    public boolean hasPermission(String permission) {
+        return VaultManager.INSTANCE.getPermissionProvider().getProvider().playerHas((String)null, playerName, permission);
+    }
 
-    String getPrimaryGroup();
+    public boolean hasGroup(String groupName) {
+        return VaultManager.INSTANCE.getPermissionProvider().getProvider().playerInGroup((String)null, playerName, groupName);
+    }
 
-    void addPermission(String permission);
+    public boolean hasMoney(double moneyCount) {
+        return getBalance() >= moneyCount;
+    }
 
-    void removePermission(String permission);
+    public void setMoney(double moneyCount) {
+        double playerBalance = getBalance();
 
-    void addGroup(String group);
+        if (moneyCount > playerBalance) {
+            giveMoney(moneyCount - playerBalance);
+        }
 
-    void removeGroup(String group);
+        if (moneyCount < playerBalance) {
+            takeMoney(playerBalance - moneyCount);
+        }
+    }
 
-    boolean hasGroup(String group);
+    public void giveMoney(double moneyToGive) {
+        VaultManager.INSTANCE.getEconomyProvider().getProvider().depositPlayer(playerName, moneyToGive);
+    }
 
-    boolean hasPermission(String permission);
+    public void takeMoney(double moneyToTake) {
+        VaultManager.INSTANCE.getEconomyProvider().getProvider().withdrawPlayer(playerName, moneyToTake);
+    }
+
+    public void addPermission(String permission) {
+        VaultManager.INSTANCE.getPermissionProvider().getProvider().playerAdd((String)null, playerName, permission);
+    }
+
+    public void removePermission(String permission) {
+        VaultManager.INSTANCE.getPermissionProvider().getProvider().playerRemove((String)null, playerName, permission);
+    }
+
+    public void addGroup(String groupName) {
+        VaultManager.INSTANCE.getPermissionProvider().getProvider().playerAddGroup((String)null, playerName, groupName);
+    }
+    
+    public void removeGroup(String groupName) {
+        VaultManager.INSTANCE.getPermissionProvider().getProvider().playerRemoveGroup((String)null, playerName, groupName);
+    }
+    
 }

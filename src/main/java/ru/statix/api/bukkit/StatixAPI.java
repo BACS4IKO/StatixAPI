@@ -67,7 +67,7 @@ public final class StatixAPI extends JavaPlugin {
     private static final Map<String, Integer> SERVERS_ONLINE_MAP = new HashMap<>();
 
     @Getter
-    private static VaultManager vaultManager = null;
+    private static VaultManager vaultManager = (VaultManager.INSTANCE);
 
 
 
@@ -82,11 +82,11 @@ public final class StatixAPI extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SimpleInventoryListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getLogger().info("Successful register Listeners");
-        /**
-         * @ItzStatix: в ближайшее время изменений в VaultManager не планируется,
-         * ведь меня там все устраивает. Если вы хотите чтобы я что-то добавил - пишите в ВК.
-         */
-        vaultManager = new VaultManager();
+
+        VaultManager.INSTANCE.getChatProvider().registerProvider(this);
+        VaultManager.INSTANCE.getEconomyProvider().registerProvider(this);
+        VaultManager.INSTANCE.getPermissionProvider().registerProvider(this);
+        getLogger().info("Successful register Vault Providers");
 
         FakeEntityListener fakeEntityListener = new FakeEntityListener();
 

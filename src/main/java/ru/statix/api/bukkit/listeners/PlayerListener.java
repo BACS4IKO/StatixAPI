@@ -5,16 +5,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import ru.statix.api.bukkit.StatixAPI;
-import ru.statix.api.bukkit.vault.VaultPlayer;
 
 public class PlayerListener implements Listener {
 
-    @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        VaultPlayer vaultPlayer = StatixAPI.getVaultManager().getVaultPlayer(player);
-
-        player.setDisplayName(vaultPlayer.getPrefix().concat(player.getName()));
-    }
+    /**
+     * Короче, я понял что установка DisplayName при заходе
+     * игрока, это провальная идея
+     */
 
 }
