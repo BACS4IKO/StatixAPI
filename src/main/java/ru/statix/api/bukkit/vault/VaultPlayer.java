@@ -1,93 +1,37 @@
 package ru.statix.api.bukkit.vault;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+public interface VaultPlayer {
+   String getName();
 
-@RequiredArgsConstructor
-public class VaultPlayer {
+   String getPrefix();
 
-    @Getter
-    private final String playerName;
+   String getSuffix();
 
+   String getGroupPrefix();
 
-    public String getDisplayName() {
-        return getPrefix() + playerName + getSuffix();
-    }
+   String getGroupSuffix();
 
-    public String getPrefix() {
-        return VaultManager.INSTANCE.getChatProvider().getProvider().getPlayerPrefix((String)null, playerName);
-    }
+   double getBalance();
 
-    public String getGroupPrefix() {
-        return VaultManager.INSTANCE.getChatProvider().getProvider().getGroupPrefix((String)null, playerName);
-    }
+   void setBalance(double var1);
 
-    public String getSuffix() {
-        return VaultManager.INSTANCE.getChatProvider().getProvider().getPlayerSuffix((String)null, playerName);
-    }
+   void giveMoney(double var1);
 
-    public String getGroupSuffix() {
-        return VaultManager.INSTANCE.getChatProvider().getProvider().getGroupSuffix((String)null, playerName);
-    }
+   void takeMoney(double var1);
 
-    public String getPrimaryGroup() {
-        return VaultManager.INSTANCE.getPermissionProvider().getProvider().getPrimaryGroup((String)null, playerName);
-    }
+   String[] getGroups();
 
-    public String[] getGroups() {
-        return VaultManager.INSTANCE.getPermissionProvider().getProvider().getPlayerGroups((String)null, playerName);
-    }
+   String getPrimaryGroup();
 
-    public double getBalance() {
-        return VaultManager.INSTANCE.getEconomyProvider().getProvider().getBalance(playerName);
-    }
+   void addPermission(String var1);
 
-    public boolean hasPermission(String permission) {
-        return VaultManager.INSTANCE.getPermissionProvider().getProvider().playerHas((String)null, playerName, permission);
-    }
+   void removePermission(String var1);
 
-    public boolean hasGroup(String groupName) {
-        return VaultManager.INSTANCE.getPermissionProvider().getProvider().playerInGroup((String)null, playerName, groupName);
-    }
+   void addGroup(String var1);
 
-    public boolean hasMoney(double moneyCount) {
-        return getBalance() >= moneyCount;
-    }
+   void removeGroup(String var1);
 
-    public void setMoney(double moneyCount) {
-        double playerBalance = getBalance();
+   boolean hasGroup(String var1);
 
-        if (moneyCount > playerBalance) {
-            giveMoney(moneyCount - playerBalance);
-        }
-
-        if (moneyCount < playerBalance) {
-            takeMoney(playerBalance - moneyCount);
-        }
-    }
-
-    public void giveMoney(double moneyToGive) {
-        VaultManager.INSTANCE.getEconomyProvider().getProvider().depositPlayer(playerName, moneyToGive);
-    }
-
-    public void takeMoney(double moneyToTake) {
-        VaultManager.INSTANCE.getEconomyProvider().getProvider().withdrawPlayer(playerName, moneyToTake);
-    }
-
-    public void addPermission(String permission) {
-        VaultManager.INSTANCE.getPermissionProvider().getProvider().playerAdd((String)null, playerName, permission);
-    }
-
-    public void removePermission(String permission) {
-        VaultManager.INSTANCE.getPermissionProvider().getProvider().playerRemove((String)null, playerName, permission);
-    }
-
-    public void addGroup(String groupName) {
-        VaultManager.INSTANCE.getPermissionProvider().getProvider().playerAddGroup((String)null, playerName, groupName);
-    }
-    
-    public void removeGroup(String groupName) {
-        VaultManager.INSTANCE.getPermissionProvider().getProvider().playerRemoveGroup((String)null, playerName, groupName);
-    }
-    
+   boolean hasPermission(String var1);
 }
