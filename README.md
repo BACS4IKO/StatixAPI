@@ -14,6 +14,7 @@
 ## Планы на API
 * Переписать кривой ServerPing
 * Сделать что-то с GameAPI
+* Переписать голограммы, т.к. сейчас они меня не особо устраивают
 * Добавить инструкцию по созданию кликабельных инвенторей в Readme
  
 ***
@@ -138,8 +139,8 @@ StatixAPI.registerCommand(new ExamplePlayerCommand());
 Сейчас на примере `ru.statix.api.bukkit.protocollib.entity.impl.FakePlayer` мы попытаемся в этом убедиться:
 ```java
 FakePlayer fakePlayer = new FakePlayer("ItzStatix", location);
-        //Повернуть голову и тело FakePlayer в сторону того, кому отправляем NPC
-        fakePlayer.look(receiver, receiver.getLocation());
+        //Следить за игроком
+        fakePlayer.look(receiver);
         //Встать на SHIFT
         fakePlayer.setSneaking(true);
         //Зажечь NPC
@@ -159,6 +160,7 @@ FakePlayer fakePlayer = new FakePlayer("ItzStatix", location);
 ***
 - `Holograms`:
 
+### У нас уже давно другая система голограмм, но переписывать это лень
 **StatixAPI** позволяет создавать пакетные голограммы, как для всех игроков, так и только для определенных, сейчас на примере тестовой голограммы я это вам продемонструрую:
 ```java
         StatixAPI.getHologramManager().createHologram("DonateHologram", LocationUtil.stringToLocation(Main.getInstance().getConfig().getString("holo")), hologram -> {
@@ -263,8 +265,6 @@ animationPacket.broadcastPacket();
 Статистику игроков, сервера, либо какую-то другую информацию все привыкли выводить в **Scoreboard**, а StonlexAPI упрощает их написание.
 
 Теперь буквально в пару строчек можно написать пакетные скорборды, которые не будут конфликтовать с тегами, или другими барами, созданными через **Scoreboard**.
-
-Сейчас на простом примере попробуем создать подобный Scoreboard
 
 Для начала необходимо создать Builder, по которому будут выстраиваться необходимые данные для Scoreboard:
 
