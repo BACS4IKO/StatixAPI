@@ -25,7 +25,7 @@ public class TestMegaCommand extends BaseMegaCommand<Player> {
     @CommandArgument(aliases = "spawnholo")
     protected void holo(Player p, String[] args) {
         ProtocolHolographic hologram
-                = StatixAPI.createHologram(p.getLocation());
+                = StatixAPI.createSimpleHolographic(p.getLocation());
         Consumer<Player> playerConsumer = player -> { //player = игрок, который кликнул
             player.sendMessage("§cКлик по голограмме прошел, удаляем для вас голограмму З:"); //Отправитб сообщение игроку
 

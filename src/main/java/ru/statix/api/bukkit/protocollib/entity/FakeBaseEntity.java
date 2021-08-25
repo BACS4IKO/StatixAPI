@@ -223,7 +223,7 @@ public abstract class FakeBaseEntity implements Cloneable, FakeEntityClickable {
         Bukkit.getScheduler().runTaskLater(StatixAPI.getInstance(), () -> {
             look(player, player.getLocation());
             look(player);
-        }, 1); //20 типов == 1 секунда
+        }, 1); //20 тиков == 1 секунда
     }
 
     public synchronized void look(@NonNull Location location) {

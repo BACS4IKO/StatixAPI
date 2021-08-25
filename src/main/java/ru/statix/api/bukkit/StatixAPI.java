@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ru.statix.api.bukkit.command.BaseCommand;
 import ru.statix.api.bukkit.command.manager.CommandManager;
 import ru.statix.api.bukkit.holographic.ProtocolHolographic;
+import ru.statix.api.bukkit.holographic.impl.MegaHolographic;
 import ru.statix.api.bukkit.holographic.impl.SimpleHolographic;
 import ru.statix.api.bukkit.holographic.manager.ProtocolHolographicManager;
 import ru.statix.api.bukkit.inventory.listener.SimpleInventoryListener;
@@ -30,6 +31,7 @@ import ru.statix.api.bukkit.utility.ItemUtil;
 import ru.statix.api.bukkit.vault.VaultManager;
 import ru.statix.api.bukkit.vault.VaultPlayer;
 import ru.statix.api.example.commands.TestCommand;
+import ru.statix.api.example.commands.TestMegaCommand;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,7 +75,8 @@ public final class StatixAPI extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getLogger().info("Successful start Inventory Update Task");
+        inventoryManager.startInventoryUpdaters();
+        getLogger().info("Successful start Inventory Update");
 
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getServer().getMessenger().registerOutgoingPluginChannel(this, "StatixAPI");
@@ -102,7 +105,7 @@ public final class StatixAPI extends JavaPlugin {
 
         //TEST API
         registerCommand(new TestCommand());
-        //registerCommand(new TestMegaCommand());
+        registerCommand(new TestMegaCommand());
         getLogger().info("Successful start register TestCommands");
     }
 
@@ -135,8 +138,16 @@ public final class StatixAPI extends JavaPlugin {
      *
      * @param location - начальная локация голограммы
      */
-    public static ProtocolHolographic createHologram(@NonNull Location location) {
+    public static ProtocolHolographic createSimpleHolographic(@NonNull Location location) {
         return new SimpleHolographic(location);
+    }
+    /**
+     * Создать обыкновенную голограмму
+     *
+     * @param location - начальная локация голограммы
+     */
+    public static ProtocolHolographic createMegaHolographic(@NonNull Location location) {
+        return new MegaHolographic(location);
     }
 
 

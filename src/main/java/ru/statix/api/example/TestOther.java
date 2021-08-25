@@ -15,6 +15,7 @@ import ru.statix.api.bukkit.protocollib.entity.impl.FakePlayer;
 import ru.statix.api.bukkit.StatixAPI;
 import ru.statix.api.bukkit.scoreboard.BaseScoreboardBuilder;
 import ru.statix.api.bukkit.scoreboard.BaseScoreboardScope;
+import ru.statix.api.bukkit.utility.ItemUtil;
 import ru.statix.api.bukkit.utility.LocationUtil;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -55,16 +56,20 @@ public class TestOther {
      */
     public void spawnHologram(Player receiver, Location location, boolean showForAll) {
         ProtocolHolographic protocolHolographic
-                = StatixAPI.createHologram(location);
-// Создание кликабельных голограмм
+                = StatixAPI.createSimpleHolographic(location);
+        // Создание действия при клике
         Consumer<Player> playerConsumer = player -> { //player = игрок, который кликнул
 
             player.sendMessage(ChatColor.GOLD + "Клик по голограмме прошел успешно!");
             player.sendMessage(ChatColor.GOLD + "Локация: " + LocationUtil.locationToString(protocolHolographic.getLocation()));
         };
 
-// Добавление строк в голограмму
+        // Добавление строк в голограмму
         protocolHolographic.addClickLine(ChatColor.YELLOW + "WOW! THIS IS PROTOCOL HOLO", playerConsumer);
+        // По факту есть возможность создать строки с нормальными головами, но
+        // там нужно знать их текстуру
+        protocolHolographic.addDropLine(ItemUtil.getSkull("ItzStatix"));
+
         protocolHolographic.setUpdater(10, protocolHolographic.getHolographicUpdater());
     }
 
