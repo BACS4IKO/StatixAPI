@@ -18,6 +18,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+import ru.statix.api.bukkit.StatixAPI;
 import ru.statix.api.bukkit.protocollib.entity.equipment.FakeEntityEquipment;
 import ru.statix.api.bukkit.protocollib.packet.AbstractPacket;
 import ru.statix.api.bukkit.protocollib.packet.ProtocolPacketFactory;
@@ -213,8 +214,16 @@ public abstract class FakeBaseEntity implements Cloneable, FakeEntityClickable {
         sendHeadRotationPacket(player);
     }
 
+    /**
+     * #Говнокодим с валерой, по идее должно работать
+     *
+     * @param player - игрок
+     */
     public synchronized void look(@NonNull Player player) {
-        look(player, player.getLocation());
+        Bukkit.getScheduler().runTaskLater(StatixAPI.getInstance(), () -> {
+            look(player, player.getLocation());
+            look(player);
+        }, 1); //20 типов == 1 секунда
     }
 
     public synchronized void look(@NonNull Location location) {
