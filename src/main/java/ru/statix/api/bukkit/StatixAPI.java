@@ -75,6 +75,9 @@ public final class StatixAPI extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
+        getLogger().info("Successful load config.yml file");
+
         inventoryManager.startInventoryUpdaters();
         getLogger().info("Successful start Inventory Update");
 
@@ -103,10 +106,11 @@ public final class StatixAPI extends JavaPlugin {
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getLogger().info("Successful start cho-to tam =)");
 
-        //TEST API
-        registerCommand(new TestCommand());
-        registerCommand(new TestMegaCommand());
-        getLogger().info("Successful start register TestCommands");
+        if (getConfig().getBoolean("StatixAPI.TestCommands")) {
+            registerCommand(new TestCommand());
+            registerCommand(new TestMegaCommand());
+            getLogger().info("Successful start register TestCommands");
+        }
     }
 
 
