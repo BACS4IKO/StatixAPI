@@ -221,14 +221,18 @@ public abstract class FakeBaseEntity implements Cloneable, FakeEntityClickable {
      */
     public synchronized void look(@NonNull Player player) {
         Bukkit.getScheduler().runTaskLater(StatixAPI.getInstance(), () -> {
-            if (player.getWorld().getName().equals(getLocation().getWorld().getName()) && player.getLocation().distance(getLocation()) <= 25.0D) {
-                look(player, player.getLocation());
-            } else {
-                // Хз, но куда-то повернем его
-                look(getLocation());
-            }
-            // Снова запускаем этот же метод
+            // В место 10.0D можете поставить свое, удобное вам значение, например 5.0D или вовсе 30.0D
+            // Лично для меня оптимальное значение это 7.0D и тут как-раз оно и стоит
             // <c> iStatix
+            if (player.getWorld().getName().equals(getLocation().getWorld().getName()) && player.getLocation().distance(getLocation()) <= 7.0D) {
+                look(player, player.getLocation());
+            }
+            //else {
+            // look(getLocation());
+            //}
+            //todo: Возвращать entity в исходное положение
+
+            // Снова запускаем этот же метод
             look(player);
         }, 1); //20 тиков == 1 секунда
     }
