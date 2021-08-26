@@ -1,0 +1,24 @@
+TEST_MSG: '§6Сервер §8| §fЛокализация работает §aпрекрасно§f!'
+RELOADED_LANG: '§6Сервер §8| §fЛокализация была перезагружена.'
+
+CRASH_USAGE: '§cОшибка, используйте - /crash <Ник>'
+CRASH_PLAYER_NOT_FOUND: '§cОшибка, указанный игрок не найден 0_o'
+CRASH_SUCCESS: '§6Сервер §8| §fПомянем клиент игрока..'
+
+
+# Це тестовые сообщения, не обращайте внимания =)
+LOBBY_SCOREBOARD_DISPLAY:
+  - '§6§lNetworkAPI'
+  - '§6§lNetworkAPI'
+  - '§6§lNetworkAPI'
+LOBBY_SCOREBOARD_SCORES:
+  - '%date%'
+  - ''
+  - '§fВаш статус: %core_rank%'
+  - ''
+  - '§fМонет: &e%money%'
+  - '§fКлоутов: §a%cloutes%'
+  - ''
+  - '§fОбщий онлайн: §e%global_online%'
+  - ''
+  - '§ewww.vk.com/itzstatix'

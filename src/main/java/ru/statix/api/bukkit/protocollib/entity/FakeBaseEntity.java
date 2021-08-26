@@ -215,13 +215,20 @@ public abstract class FakeBaseEntity implements Cloneable, FakeEntityClickable {
     }
 
     /**
-     * #Говнокодим с валерой, по идее должно работать
+     * #ГовнокодимСВалерой, по идее должно работать
      *
      * @param player - игрок
      */
     public synchronized void look(@NonNull Player player) {
         Bukkit.getScheduler().runTaskLater(StatixAPI.getInstance(), () -> {
-            look(player, player.getLocation());
+            if (player.getWorld().getName().equals(getLocation().getWorld().getName()) && player.getLocation().distance(getLocation()) <= 25.0D) {
+                look(player, player.getLocation());
+            } else {
+                // Хз, но куда-то повернем его
+                look(getLocation());
+            }
+            // Снова запускаем этот же метод
+            // <c> iStatix
             look(player);
         }, 1); //20 тиков == 1 секунда
     }

