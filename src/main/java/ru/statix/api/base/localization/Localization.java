@@ -27,7 +27,7 @@ public enum Localization {
 
     private static final Map<Integer, Localization> LOCALES = new ConcurrentHashMap<>();
     private static final Localization DEFAULT = RUSSIAN;
-    private static final String ERROR = "§cNot found";
+    private static final String ERROR = "§cКлюч локализации не найден!";
 
     @Deprecated
     public static void add(String key, String message) {

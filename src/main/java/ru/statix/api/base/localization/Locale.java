@@ -44,7 +44,7 @@ class Locale {
     }
 
     void loadFromSite() throws IOException {
-        URL oracle = new URL("https://raw.githubusercontent.com/ItzStatix/StatixAPI/tree/master/src/main/lang/" + name + ".yml");
+        URL oracle = new URL("https://raw.githubusercontent.com/ItzStatix/StatixAPI/master/src/main/lang/" + name + ".yml");
         Map<Object, Object> map = YAML.loadAs(new InputStreamReader(oracle.openStream()), LinkedHashMap.class);
         if (map == null)
             return;
