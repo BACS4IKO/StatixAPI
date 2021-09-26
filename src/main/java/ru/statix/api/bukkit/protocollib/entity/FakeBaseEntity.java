@@ -17,12 +17,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import ru.statix.api.bukkit.StatixAPI;
 import ru.statix.api.bukkit.protocollib.entity.equipment.FakeEntityEquipment;
 import ru.statix.api.bukkit.protocollib.packet.AbstractPacket;
 import ru.statix.api.bukkit.protocollib.packet.ProtocolPacketFactory;
 import ru.statix.api.bukkit.protocollib.packet.entity.*;
+import ru.statix.api.bukkit.utility.BukkitUtil;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -47,6 +49,7 @@ public abstract class FakeBaseEntity implements Cloneable, FakeEntityClickable {
 
     protected @NonNull int entityId;
     protected @NonNull int spawnTypeId;
+    protected boolean alwaysLooking;
 
     protected @NonNull EntityType entityType;
 
@@ -214,28 +217,31 @@ public abstract class FakeBaseEntity implements Cloneable, FakeEntityClickable {
         sendHeadRotationPacket(player);
     }
 
-    /**
-     * #ГовнокодимСВалерой, по идее должно работать
-     *
-     * @param player - игрок
-     */
     public synchronized void look(@NonNull Player player) {
-        Bukkit.getScheduler().runTaskLater(StatixAPI.getInstance(), () -> {
-            // В место 10.0D можете поставить свое, удобное вам значение, например 5.0D или вовсе 30.0D
-            // Лично для меня оптимальное значение это 7.0D и тут как-раз оно и стоит
-            // <c> iStatix
-            if (player.getWorld().getName().equals(getLocation().getWorld().getName()) && player.getLocation().distance(getLocation()) <= 7.0D) {
-                look(player, player.getLocation());
-            }
-            //else {
-            // look(getLocation());
-            //}
-            //todo: Возвращать entity в исходное положение
-
-            // Снова запускаем этот же метод
-            look(player);
-        }, 1); //20 тиков == 1 секунда
+        look(player, player.getLocation());
     }
+
+    /**
+     * А это удивительная фигня которая по идее будет работать..
+     */
+    public synchronized void setAlwaysLooking(boolean b, double radius) {
+        this.alwaysLooking = b;
+            BukkitUtil.runTaskLater(0, () -> {
+                for (Player player : getViewerCollection()) {
+                    if (player.getLocation().getWorld().equals(getLocation().getWorld())) {
+                        if (player.getLocation().distance(getLocation()) <= radius) {
+                            look(player, player.getLocation());
+                        } else {
+                            look(player, location.getYaw(), location.getPitch());
+                        }
+                    }
+                }
+                if (isAlwaysLooking()) {
+                    setAlwaysLooking(b, radius);
+                }
+            });
+    }
+
 
     public synchronized void look(@NonNull Location location) {
         viewerCollection.forEach(player -> look(player, location));

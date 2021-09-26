@@ -11,7 +11,7 @@ import ru.statix.api.bukkit.protocollib.entity.impl.FakeArmorStand;
 import ru.statix.api.bukkit.protocollib.entity.impl.FakeSilverfish;
 
 import java.util.function.Consumer;
-
+// по идее будет лучше работать, нахуй нам этот ваш сильверфиш
 @Getter
 public class ActionHolographicLine implements ProtocolHolographicLine {
 
@@ -31,9 +31,6 @@ public class ActionHolographicLine implements ProtocolHolographicLine {
 
     @Setter
     private FakeArmorStand fakeArmorStand;
-
-    @Setter
-    private FakeSilverfish clickableSilverfish;
 
 
     public ActionHolographicLine(int lineIndex, String lineText, ProtocolHolographic holographic, Consumer<Player> clickAction) {
@@ -55,18 +52,13 @@ public class ActionHolographicLine implements ProtocolHolographicLine {
         fakeArmorStand.setBasePlate(false);
         fakeArmorStand.setCustomNameVisible(true);
         fakeArmorStand.setCustomName(lineText);
-
-        //clickable silverfish
-        setClickableSilverfish(new FakeSilverfish(fakeArmorStand.getLocation().clone().add(0, 2.2, 0)));
-
-        clickableSilverfish.setInvisible(true);
-        clickableSilverfish.setClickAction(clickAction);
+        fakeArmorStand.setClickAction(clickAction);
     }
 
     @Override
     public void update() {
         fakeArmorStand.setCustomName(lineText);
-        clickableSilverfish.setClickAction(clickAction);
+        fakeArmorStand.setClickAction(clickAction);
     }
 
     @Override
@@ -77,13 +69,11 @@ public class ActionHolographicLine implements ProtocolHolographicLine {
     @Override
     public void addReceivers(@NonNull Player... receivers) {
         fakeArmorStand.addReceivers(receivers);
-        clickableSilverfish.addReceivers(receivers);
     }
 
     @Override
     public void removeReceivers(@NonNull Player... receivers) {
         fakeArmorStand.removeReceivers(receivers);
-        clickableSilverfish.removeReceivers(receivers);
     }
 
     @Override
@@ -94,25 +84,21 @@ public class ActionHolographicLine implements ProtocolHolographicLine {
     @Override
     public void addViewers(@NonNull Player... viewers) {
         fakeArmorStand.addViewers(viewers);
-        clickableSilverfish.addViewers(viewers);
     }
 
     @Override
     public void removeViewers(@NonNull Player... viewers) {
         fakeArmorStand.removeViewers(viewers);
-        clickableSilverfish.removeViewers(viewers);
     }
 
     @Override
     public void spawn() {
         fakeArmorStand.spawn();
-        clickableSilverfish.spawn();
     }
 
     @Override
     public void remove() {
         fakeArmorStand.remove();
-        clickableSilverfish.remove();
     }
 
     @Override
@@ -120,7 +106,6 @@ public class ActionHolographicLine implements ProtocolHolographicLine {
         this.location = location.clone().add(0, -(0.25 * lineIndex), 0);
 
         fakeArmorStand.teleport(this.location);
-        clickableSilverfish.teleport(fakeArmorStand.getLocation().clone().add(0, 2.2, 0));
     }
 
 }

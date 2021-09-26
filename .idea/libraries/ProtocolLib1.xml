@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="VaultPlugin1">
+  <library name="ProtocolLib1">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../Либы/VaultPlugin.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../home/libs/ProtocolLib.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
