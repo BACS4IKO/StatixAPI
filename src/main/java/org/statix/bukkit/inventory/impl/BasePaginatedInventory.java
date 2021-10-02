@@ -122,7 +122,7 @@ public abstract class BasePaginatedInventory implements org.statix.bukkit.invent
       this.setItem(buttonSlot, inventoryButton);
    }
 
-   public void setClickItem(int buttonSlot, ItemStack itemStack, ClickableButtonAction buttonAction) {
+   public void addItem(int buttonSlot, ItemStack itemStack, ClickableButtonAction buttonAction) {
       BaseInventoryButton inventoryButton = new ActionInventoryButton(itemStack, buttonAction);
       this.setItem(buttonSlot, inventoryButton);
    }
@@ -259,13 +259,13 @@ public abstract class BasePaginatedInventory implements org.statix.bukkit.invent
          } else {
             int allPagesCount = this.pageButtons.size() / this.pageSlots.size();
             if (this.currentPage < allPagesCount) {
-               this.setClickItem(this.inventorySize - 3, ItemUtil.newBuilder(Material.ARROW).setName("§aСледующая страница").build(), (clickedPlayer, event) -> {
+               this.addItem(this.inventorySize - 3, ItemUtil.newBuilder(Material.ARROW).setName("§aСледующая страница").build(), (clickedPlayer, event) -> {
                   this.forwardPage(clickedPlayer, allPagesCount);
                });
             }
 
             if (this.currentPage - 1 >= 0) {
-               this.setClickItem(this.inventorySize - 5, ItemUtil.newBuilder(Material.ARROW).setName("§aПредыдущая страница").build(), (clickedPlayer, event) -> {
+               this.addItem(this.inventorySize - 5, ItemUtil.newBuilder(Material.ARROW).setName("§aПредыдущая страница").build(), (clickedPlayer, event) -> {
                   this.backwardPage(clickedPlayer);
                });
             }
