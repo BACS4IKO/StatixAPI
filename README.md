@@ -36,7 +36,7 @@
 Доступ к VaultAPI (VaultPlayer) можно получить тремя способами, сейчас мы рассмотрим их все:
 
 ### 1 | Через класс StatixAPI
-**StatixAPI** имеет главный класс, через который происходит большая часть менеджмента над StatixBukkitAPI - `ru.statix.api.bukkit.StatixAPI`, и обратиться к VaultManager можно тоже через него, например:
+**StatixAPI** имеет главный класс, через который происходит большая часть менеджмента над StatixBukkitAPI - `StatixAPI`, и обратиться к VaultManager можно тоже через него, например:
 ```java
 StatixAPI.getVaultManager().getVaultPlayer(player.getName()).getPrefix();
 ```
@@ -45,21 +45,21 @@ StatixAPI.getVaultManager().getVaultPlayer(player.getName()).getPrefix();
 VaultPlayer vp = StatixAPI.getVaultManager().getVaultPlayer(player.getName()); // Получаем VaultPlayer через главный класс API
 vp.giveMoney(10); // Выдать 10 монет игроку
 vp.addPermission("statixapi.test"); // Добавить право игроку
-// Это далеко не все функции VaultPlayer, подробнее в классе: ru.statix.api.bukkit.vault.VaultPlayer
+// Это далеко не все функции VaultPlayer, подробнее в классе: VaultPlayer
 ```
 ### 2 | Напрямую через VaultManager
 It is not necessary to refer to the StatixAPI class, you can do this directly through the VaultManager:
 ```java
 VaultPlayer vp = new VaultManager().getVaultPlayer(player); // Получаем VaultPlayer через главный VaultManager
 vp.addGroup("default"); // Добавляем игроку группу default
-// Это далеко не все функции VaultPlayer, подробнее в классе: ru.statix.api.bukkit.vault.VaultPlayer
+// Это далеко не все функции VaultPlayer, подробнее в классе: VaultPlayer
 ```
 ### 3 | Самый простой, через BaseVault
 You don't have to go to the VaultManager and get the VaultPlayer type, you can make it even easier!:
 ```java
 BaseVault bv = new BaseVault(); // Получам BaseVault
 bv.addGroup(player.getName(), "default"); // Добавляем игроку группу default
-// Это далеко не все функции VaultPlayer, подробнее в классе: ru.statix.api.bukkit.vault.BaseVault
+// Это далеко не все функции VaultPlayer, подробнее в классе: BaseVault
 ```
 
 ***
@@ -123,7 +123,7 @@ public class MegaTestCommand
 ```
 Каждый метод - это отдельная подкоманда, а аннотация `@CommandArgument` обозначает нужный метод подкомандой и избавит Вас от костылей, duplicated-кода, создав для определенной подкоманды указанные алиасы.
 
-Весь менеджмент над Bukkit API происходит через один класс - `ru.statix.api.bukkit.StatixAPI`
+Весь менеджмент над Bukkit API происходит через один класс - `StatixAPI`
 
 Исходя из этого, регистрация команд происходит тоже через этот класс:
 ```javascript
@@ -138,7 +138,7 @@ StatixAPI.registerCommand(new ExamplePlayerCommand());
 
 **StatixAPI** позволяет создавать различных entity на пакетах:
 
-Сейчас на примере `ru.statix.api.bukkit.protocollib.entity.impl.FakePlayer` мы попытаемся в этом убедиться:
+Сейчас на примере `FakePlayer` мы попытаемся в этом убедиться:
 ```java
 FakePlayer fakePlayer = new FakePlayer("ItzStatix", location);
         //Следить за игроком
@@ -241,7 +241,7 @@ ProtocolTeam protocolTeam = ProtocolTeam.findReceiver(player);
 ***
 ### `Protocol Packets-API`:
 
-Создание пакетов происходит через фабрику `ru.statix.api.bukkit.protocollib.packet.ProtocolPacketFactory`
+Создание пакетов происходит через фабрику `ProtocolPacketFactory`
 
 Рассмотрим на примере пакета воспроизведения анимации "маха" рукой игрока
 

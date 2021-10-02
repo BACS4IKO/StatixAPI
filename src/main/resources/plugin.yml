@@ -1,5 +1,5 @@
 name: StatixAPI
-main: ru.statix.api.bukkit.StatixAPI
+main: org.statix.bukkit.StatixAPI
 version: 1.4
 author: ItzStatix
 

@@ -1,4 +1,4 @@
 name: StatixAPI
-main: ru.statix.api.bungee.BungeeStatixAPI
+main: org.statix.bungee.BungeeStatixAPI
 version: 1.1
 author: ItzStatix
