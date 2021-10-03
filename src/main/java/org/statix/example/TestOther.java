@@ -46,26 +46,6 @@ public class TestOther {
     }
 
 
-    /**
-     * В этом простом методе мы очень легко создаем
-     * голограмму, которая может быть видима только 1 игроку, а может и всем.
-     */
-    public void spawnHologram(Player receiver, Location location, boolean showForAll) {
-        ProtocolHolographic protocolHolographic
-                = StatixAPI.createSimpleHolographic(location);
-        // Создание действия при клике
-        // Добавление строк в голограмму
-        protocolHolographic.addTextLine(ChatColor.YELLOW + "WOW! THIS IS PROTOCOL HOLO");
-        // По факту есть возможность создать строки с нормальными головами, но
-        // там нужно знать их текстуру
-        protocolHolographic.addDropLine(ItemUtil.getSkull("ItzStatix"));
-        protocolHolographic.setClickAction(player -> { //player = игрок, который кликнул
-
-            player.sendMessage(ChatColor.GOLD + "Клик по голограмме прошел успешно!");
-            player.sendMessage(ChatColor.GOLD + "Локация: " + LocationUtil.locationToString(protocolHolographic.getLocation()));
-        });
-
-    }
 
 
     /**

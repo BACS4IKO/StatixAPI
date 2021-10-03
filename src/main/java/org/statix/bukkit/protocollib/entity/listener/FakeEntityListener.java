@@ -154,12 +154,13 @@ public class FakeEntityListener extends PacketAdapter
                 continue;
             }
             if (player.getLocation().distance(fakeEntity.getLocation()) >= fakeEntity.getAlwaysLookingDistance()) {
-                fakeEntity.look(player, fakeEntity.getLocation().getYaw(), fakeEntity.getLocation().getPitch());
+                fakeEntity.look(fakeEntity.getLocation().getYaw(), fakeEntity.getLocation().getPitch());
                 continue;
             }
             fakeEntity.look(player, player.getLocation());
         }
     }
+
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event) {

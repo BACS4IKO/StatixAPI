@@ -9,7 +9,7 @@ public class TestMenu
         extends BaseSimpleInventory {
 
     public TestMenu() {
-        super("Тестовый инвентарь", 5);
+        super(5, "Тестовый инвентарь");
     }
 
     @Override

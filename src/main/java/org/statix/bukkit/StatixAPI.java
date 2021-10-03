@@ -1,6 +1,7 @@
 package org.statix.bukkit;
 
 import com.comphenix.protocol.ProtocolLibrary;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonValueFormatVisitor;
 import lombok.Getter;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
@@ -16,8 +17,8 @@ import org.statix.bukkit.command.manager.CommandManager;
 import org.statix.bukkit.holographic.ProtocolHolographic;
 import org.statix.bukkit.holographic.impl.SimpleHolographic;
 import org.statix.bukkit.holographic.manager.ProtocolHolographicManager;
-import org.statix.bukkit.inventory.listener.SimpleInventoryListener;
-import org.statix.bukkit.inventory.manager.BukkitInventoryManager;
+import org.statix.bukkit.inventory.BaseInventoryListener;
+import org.statix.bukkit.inventory.BaseInventoryManager;
 import org.statix.bukkit.listeners.PlayerListener;
 import org.statix.bukkit.protocollib.entity.listener.FakeEntityListener;
 import org.statix.bukkit.event.EventRegisterManager;
@@ -59,7 +60,7 @@ public final class StatixAPI extends JavaPlugin {
     private static final ProtocolHolographicManager hologramManager = (ProtocolHolographicManager.INSTANCE);
 
     @Getter
-    private static final BukkitInventoryManager inventoryManager = BukkitInventoryManager.INSTANCE;
+    private static final BaseInventoryManager inventoryManager = new BaseInventoryManager();
 
     @Getter
     private static final GameAPI gameAPI = new GameAPI();
@@ -80,14 +81,14 @@ public final class StatixAPI extends JavaPlugin {
         saveDefaultConfig();
         getLogger().info("Successful load config.yml file");
 
-        inventoryManager.startInventoryUpdaters();
+        inventoryManager.startInventoryUpdateTask(this);
         getLogger().info("Successful start Inventory Update");
 
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getServer().getMessenger().registerOutgoingPluginChannel(this, "StatixAPI");
         getLogger().info("Successful register Outgoing Plugin Channels");
 
-        getServer().getPluginManager().registerEvents(new SimpleInventoryListener(), this);
+        getServer().getPluginManager().registerEvents(new BaseInventoryListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getLogger().info("Successful register Listeners");
 
@@ -103,7 +104,6 @@ public final class StatixAPI extends JavaPlugin {
         getLogger().info("Successful register ProtocolTeamListener");
         getServer().getPluginManager().registerEvents(new BaseScoreboardListener(), this);
         getLogger().info("Successful register ScoreboardListener");
-
         //Наверное да..
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getLogger().info("Successful start cho-to tam =)");
