@@ -60,11 +60,11 @@ public class HeadHolographicLine implements ProtocolHolographicLine {
         fakeArmorStand.setBasePlate(false);
 
         //для расстояния между головой и новыми строками
-        holographic.addEmptyHolographicLine();
-        holographic.addEmptyHolographicLine();
+        holographic.addEmptyLine();
+        holographic.addEmptyLine();
 
         if (!fakeArmorStand.isSmall()) {
-            holographic.addEmptyHolographicLine();
+            holographic.addEmptyLine();
         }
     }
 

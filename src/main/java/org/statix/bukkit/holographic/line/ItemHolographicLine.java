@@ -49,7 +49,7 @@ public class ItemHolographicLine implements ProtocolHolographicLine {
 
     @Override
     public void initialize() {
-        holographic.addEmptyHolographicLine();
+        holographic.addEmptyLine();
 
         fakeDroppedItem = new FakeDroppedItem(itemStack, getLocation().clone().add(0, -(0.2 * lineIndex) + 1.9, 0));
         fakeDroppedItem.setNoGravity(true);

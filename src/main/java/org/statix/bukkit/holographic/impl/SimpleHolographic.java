@@ -20,9 +20,9 @@ public class SimpleHolographic implements ProtocolHolographic {
 
     private Location location;
 
-    private ProtocolHolographicUpdater holographicUpdater;
+    private ProtocolHolographicUpdater updater;
 
-    private final List<ProtocolHolographicLine> holographicLines = new LinkedList<>();
+    private final List<ProtocolHolographicLine> lines = new LinkedList<>();
 
     private final Set<Player> receivers    = new LinkedHashSet<>();
     private final Set<Player> viewers      = new LinkedHashSet<>();
@@ -34,29 +34,29 @@ public class SimpleHolographic implements ProtocolHolographic {
 
 
     @Override
-    public ProtocolHolographicLine getHolographicLine(int lineIndex) {
-        if (lineIndex >= holographicLines.size())
+    public ProtocolHolographicLine getLine(int lineIndex) {
+        if (lineIndex >= lines.size())
             return null;
 
-        return holographicLines.get(lineIndex);
+        return lines.get(lineIndex);
     }
 
 
     @Override
-    public void setHolographicLine(int lineIndex, @NonNull ProtocolHolographicLine holographicLine) {
-        if (lineIndex >= holographicLines.size()) {
-            addHolographicLine(holographicLine);
+    public void setLine(int lineIndex, @NonNull ProtocolHolographicLine holographicLine) {
+        if (lineIndex >= lines.size()) {
+            addLine(holographicLine);
             return;
         }
 
-        ProtocolHolographicLine oldLine = getHolographicLine(lineIndex);
+        ProtocolHolographicLine oldLine = getLine(lineIndex);
         if (oldLine != null && oldLine.getClass().equals(holographicLine.getClass())) {
                 oldLine.setLineText(holographicLine.getLineText());
                 oldLine.update();
             return;
         }
 
-        holographicLines.set(lineIndex, holographicLine);
+        lines.set(lineIndex, holographicLine);
 
         holographicLine.initialize();
 
@@ -77,44 +77,44 @@ public class SimpleHolographic implements ProtocolHolographic {
 
     @Override
     public void setClickAction(Consumer<Player> action) {
-        for (ProtocolHolographicLine line : holographicLines){
+        for (ProtocolHolographicLine line : lines){
             line.getFakeArmorStand().setClickAction(action);
         }
     }
 
     @Override
-    public void setOriginalHolographicLine(int lineIndex, String holographicLine) {
-        setHolographicLine(lineIndex, new SimpleHolographicLine(lineIndex, holographicLine, this));
+    public void setTextLine(int lineIndex, String holographicLine) {
+        setLine(lineIndex, new SimpleHolographicLine(lineIndex, holographicLine, this));
     }
 
 
 
     @Override
-    public void setClickHolographicLine(int lineIndex, String holographicLine, Consumer<Player> clickAction) {
-        setHolographicLine(lineIndex, new ActionHolographicLine(lineIndex, holographicLine, this, clickAction));
+    public void setClickLine(int lineIndex, String holographicLine, Consumer<Player> clickAction) {
+        setLine(lineIndex, new ActionHolographicLine(lineIndex, holographicLine, this, clickAction));
     }
 
     @Override
-    public void setHeadHolographicLine(int lineIndex, String headTexture, boolean small) {
-        setHolographicLine(lineIndex, new HeadHolographicLine(lineIndex, headTexture, small, this));
+    public void setHeadcLine(int lineIndex, String headTexture, boolean small) {
+        setLine(lineIndex, new HeadHolographicLine(lineIndex, headTexture, small, this));
     }
 
     @Override
-    public void setItemHolographicLine(int lineIndex, ItemStack itemStack) {
-        setHolographicLine(lineIndex, new ItemHolographicLine(lineIndex, itemStack, this));
+    public void setItemLine(int lineIndex, ItemStack itemStack) {
+        setLine(lineIndex, new ItemHolographicLine(lineIndex, itemStack, this));
     }
 
     @Override
-    public void setEmptyHolographicLine(int lineIndex) {
-        setHolographicLine(lineIndex, new EmptyHolographicLine(lineIndex, this));
+    public void setEmptyLine(int lineIndex) {
+        setLine(lineIndex, new EmptyHolographicLine(lineIndex, this));
     }
 
 
     @Override
-    public void addHolographicLine(@NonNull ProtocolHolographicLine holographicLine) {
+    public void addLine(@NonNull ProtocolHolographicLine holographicLine) {
         holographicLine.initialize();
 
-        holographicLines.add(holographicLine);
+        lines.add(holographicLine);
 
         if (isPublic) {
             holographicLine.spawn();
@@ -126,29 +126,29 @@ public class SimpleHolographic implements ProtocolHolographic {
     }
 
     @Override
-    public void addOriginalHolographicLine(String holographicLine) {
-        addHolographicLine(new SimpleHolographicLine(holographicLines.size(), holographicLine, this));
+    public void addTextLine(String holographicLine) {
+        addLine(new SimpleHolographicLine(lines.size(), holographicLine, this));
     }
 
 
     @Override
-    public void addClickHolographicLine(String holographicLine, Consumer<Player> clickAction) {
-        addHolographicLine(new ActionHolographicLine(holographicLines.size(), holographicLine, this, clickAction));
+    public void addClickLine(String holographicLine, Consumer<Player> clickAction) {
+        addLine(new ActionHolographicLine(lines.size(), holographicLine, this, clickAction));
     }
 
     @Override
-    public void addHeadHolographicLine(String headTexture, boolean small) {
-        addHolographicLine(new HeadHolographicLine(holographicLines.size(), headTexture, small, this));
+    public void addHeadLine(String headTexture, boolean small) {
+        addLine(new HeadHolographicLine(lines.size(), headTexture, small, this));
     }
 
     @Override
-    public void addItemHolographicLine(ItemStack itemStack) {
-        addHolographicLine(new ItemHolographicLine(holographicLines.size(), itemStack, this));
+    public void addItemLine(ItemStack itemStack) {
+        addLine(new ItemHolographicLine(lines.size(), itemStack, this));
     }
 
     @Override
-    public void addEmptyHolographicLine() {
-        addHolographicLine(new EmptyHolographicLine(holographicLines.size(), this));
+    public void addEmptyLine() {
+        addLine(new EmptyHolographicLine(lines.size(), this));
     }
 
 
@@ -166,7 +166,7 @@ public class SimpleHolographic implements ProtocolHolographic {
         receivers.addAll(Arrays.asList(players));
         addViewers(players);
 
-        for (ProtocolHolographicLine holographicLine : holographicLines) {
+        for (ProtocolHolographicLine holographicLine : lines) {
             holographicLine.addReceivers(players);
         }
     }
@@ -180,7 +180,7 @@ public class SimpleHolographic implements ProtocolHolographic {
         receivers.removeAll(Arrays.asList(players));
         removeViewers(players);
 
-        for (ProtocolHolographicLine holographicLine : holographicLines) {
+        for (ProtocolHolographicLine holographicLine : lines) {
             holographicLine.removeReceivers(players);
         }
     }
@@ -194,7 +194,7 @@ public class SimpleHolographic implements ProtocolHolographic {
     public void addViewers(@NonNull Player... players) {
         viewers.addAll(Arrays.asList(players));
 
-        for (ProtocolHolographicLine holographicLine : holographicLines) {
+        for (ProtocolHolographicLine holographicLine : lines) {
             holographicLine.addViewers(players);
         }
     }
@@ -203,7 +203,7 @@ public class SimpleHolographic implements ProtocolHolographic {
     public void removeViewers(@NonNull Player... players) {
         viewers.removeAll(Arrays.asList(players));
 
-        for (ProtocolHolographicLine holographicLine : holographicLines) {
+        for (ProtocolHolographicLine holographicLine : lines) {
             holographicLine.removeViewers(players);
         }
     }
@@ -215,7 +215,7 @@ public class SimpleHolographic implements ProtocolHolographic {
     public void spawn() {
         isPublic = true;
 
-        for (ProtocolHolographicLine holographicLine : holographicLines)
+        for (ProtocolHolographicLine holographicLine : lines)
             holographicLine.spawn();
     }
 
@@ -223,13 +223,13 @@ public class SimpleHolographic implements ProtocolHolographic {
     public void remove() {
         isPublic = false;
 
-        for (ProtocolHolographicLine holographicLine : holographicLines)
+        for (ProtocolHolographicLine holographicLine : lines)
             holographicLine.remove();
     }
 
     @Override
     public void update() {
-        for (ProtocolHolographicLine holographicLine : holographicLines) {
+        for (ProtocolHolographicLine holographicLine : lines) {
 
             holographicLine.addReceivers(receivers.toArray(new Player[0]));
             holographicLine.addViewers(viewers.toArray(new Player[0]));
@@ -243,14 +243,14 @@ public class SimpleHolographic implements ProtocolHolographic {
     public void teleport(@NonNull Location location) {
         this.location = location;
 
-        for (ProtocolHolographicLine holographicLine : holographicLines) {
+        for (ProtocolHolographicLine holographicLine : lines) {
             holographicLine.teleport(location);
         }
     }
 
     @Override
-    public void setHolographicUpdater(long updateTicks, @NonNull ProtocolHolographicUpdater holographicUpdater) {
-        this.holographicUpdater = holographicUpdater;
+    public void setUpdater(long updateTicks, @NonNull ProtocolHolographicUpdater holographicUpdater) {
+        this.updater = holographicUpdater;
 
         holographicUpdater.setEnable(true);
         holographicUpdater.startUpdater(updateTicks);

@@ -18,44 +18,44 @@ public interface ProtocolHolographic extends ProtocolHolographicSpawnable {
     Set<Player> getReceivers();
 
 
-    List<ProtocolHolographicLine> getHolographicLines();
+    List<ProtocolHolographicLine> getLines();
 
-    ProtocolHolographicUpdater getHolographicUpdater();
+    ProtocolHolographicUpdater getUpdater();
 
-    ProtocolHolographicLine getHolographicLine(int lineIndex);
+    ProtocolHolographicLine getLine(int lineIndex);
 
 
-    void setHolographicLine(int lineIndex, ProtocolHolographicLine holographicLine);
+    void setLine(int lineIndex, ProtocolHolographicLine holographicLine);
 
     void setClickAction(Consumer<Player> action);
 
-    void setOriginalHolographicLine(int lineIndex, String holographicLine);
+    void setTextLine(int lineIndex, String holographicLine);
 
 
-    void setClickHolographicLine(int lineIndex, String holographicLine, Consumer<Player> clickAction);
+    void setClickLine(int lineIndex, String holographicLine, Consumer<Player> clickAction);
 
-    void setHeadHolographicLine(int lineIndex, String headTexture, boolean small);
+    void setHeadcLine(int lineIndex, String headTexture, boolean small);
 
-    void setItemHolographicLine(int lineIndex, ItemStack itemStack);
+    void setItemLine(int lineIndex, ItemStack itemStack);
 
-    void setEmptyHolographicLine(int lineIndex);
+    void setEmptyLine(int lineIndex);
 
 
-    void addHolographicLine(ProtocolHolographicLine holographicLine);
+    void addLine(ProtocolHolographicLine holographicLine);
 
-    void addOriginalHolographicLine(String holographicLine);
+    void addTextLine(String holographicLine);
 
-    void addClickHolographicLine(String holographicLine, Consumer<Player> clickAction);
+    void addClickLine(String holographicLine, Consumer<Player> clickAction);
 
-    void addHeadHolographicLine(String headTexture, boolean small);
+    void addHeadLine(String headTexture, boolean small);
 
-    void addItemHolographicLine(ItemStack itemStack);
+    void addItemLine(ItemStack itemStack);
 
-    void addEmptyHolographicLine();
+    void addEmptyLine();
 
 
     void teleport(Location location);
 
 
-    void setHolographicUpdater(long updateTicks, ProtocolHolographicUpdater holographicUpdater);
+    void setUpdater(long updateTicks, ProtocolHolographicUpdater holographicUpdater);
 }

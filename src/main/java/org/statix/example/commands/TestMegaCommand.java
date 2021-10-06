@@ -1,16 +1,11 @@
 package org.statix.example.commands;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.statix.bukkit.StatixAPI;
 import org.statix.bukkit.command.BaseMegaCommand;
 import org.statix.bukkit.holographic.ProtocolHolographicLine;
 import org.statix.bukkit.holographic.impl.SimpleHolographic;
 import org.statix.bukkit.protocollib.entity.impl.FakePlayer;
-import org.statix.bukkit.utility.ItemUtil;
 import org.statix.example.menu.TestMenu;
-
-import java.util.function.Consumer;
 
 public class TestMegaCommand extends BaseMegaCommand<Player> {
 
@@ -35,11 +30,11 @@ public class TestMegaCommand extends BaseMegaCommand<Player> {
     @AliasPermission(permission = "alias.use")
     protected void holo(Player p, String[] args) {
         SimpleHolographic simpleHolographic = new SimpleHolographic(p.getLocation());
-        simpleHolographic.addOriginalHolographicLine("LOLOL");
-        simpleHolographic.addOriginalHolographicLine("ITZ A WORKING");
-        simpleHolographic.addOriginalHolographicLine("A");
-        simpleHolographic.addOriginalHolographicLine("LOLOL");
-        for (ProtocolHolographicLine line : simpleHolographic.getHolographicLines()) {
+        simpleHolographic.addTextLine("LOLOL");
+        simpleHolographic.addTextLine("ITZ A WORKING");
+        simpleHolographic.addTextLine("A");
+        simpleHolographic.addTextLine("LOLOL");
+        for (ProtocolHolographicLine line : simpleHolographic.getLines()) {
             line.getFakeArmorStand().setClickAction(player -> {
                 player.sendMessage("Воу, это работает, иди поспи =))");
             });

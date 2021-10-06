@@ -17,8 +17,6 @@ public interface ProtocolHolographicLine extends ProtocolHolographicSpawnable {
 
     String getLineText();
 
-    boolean isLocalized();
-
     void setLineText(String lineText);
 
 
