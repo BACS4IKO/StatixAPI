@@ -21,7 +21,6 @@ import org.statix.bukkit.inventory.BaseInventoryListener;
 import org.statix.bukkit.inventory.BaseInventoryManager;
 import org.statix.bukkit.listeners.PlayerListener;
 import org.statix.bukkit.protocollib.entity.listener.FakeEntityListener;
-import org.statix.bukkit.event.EventRegisterManager;
 import org.statix.bukkit.game.GameAPI;
 import org.statix.bukkit.protocollib.team.ProtocolTeam;
 import org.statix.bukkit.scoreboard.BaseScoreboardBuilder;
@@ -64,9 +63,6 @@ public final class StatixAPI extends JavaPlugin {
     private static final GameAPI gameAPI = new GameAPI();
 
     @Getter
-    private static final EventRegisterManager eventManager = new EventRegisterManager();
-
-    @Getter
     private static final Map<String, Integer> SERVERS_ONLINE_MAP = new HashMap<>();
 
     @Getter
@@ -76,63 +72,30 @@ public final class StatixAPI extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        inventoryManager.startInventoryUpdateTask(this);
-        getLogger().info("Successful start Inventory Update");
+        vaultManager = new VaultManager();
+        FakeEntityListener fakeEntityListener = new FakeEntityListener();
 
+        inventoryManager.startInventoryUpdateTask(this);
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getServer().getMessenger().registerOutgoingPluginChannel(this, "StatixAPI");
-        getLogger().info("Successful register Outgoing Plugin Channels");
 
         getServer().getPluginManager().registerEvents(new BaseInventoryListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
-        getLogger().info("Successful register Listeners");
 
-        vaultManager = new VaultManager();
-        getLogger().info("Successful register Vault");
 
-        FakeEntityListener fakeEntityListener = new FakeEntityListener();
+
         ProtocolLibrary.getProtocolManager().addPacketListener(fakeEntityListener);
         getServer().getPluginManager().registerEvents(fakeEntityListener, this);
-        getLogger().info("Successful register FakeEntityListener");
         getServer().getPluginManager().registerEvents(ProtocolTeam.TEAM_LISTENER, this);
-        getLogger().info("Successful register ProtocolTeamListener");
         getServer().getPluginManager().registerEvents(new BaseScoreboardListener(), this);
-        getLogger().info("Successful register ScoreboardListener");
-        //Наверное да..
-        Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-        getLogger().info("Successful start cho-to tam =)");
 
-        registerCommand(new TestCommand());
-        registerCommand(new TestMegaCommand());
-        registerCommand(new UpdatelangCommand());
-        getLogger().info("Successful register UpdateLangCommand");
+        //registerCommand(new TestCommand());
+        //registerCommand(new TestMegaCommand());
+        //registerCommand(new UpdatelangCommand());
 
 
         getLogger().info("| StatixAPI is enabled!");
         getLogger().info("| Authors: ItzStonlex, IStatix"); // Ну на самом деле миша сделал дохера фич которые есть в этой апишке, так что пусть будет =)
-    }
-
-
-
-
-    /**
-     * Получить онлайн сервера, имя которого
-     * указано в аргументе
-     *
-     * @param serverName - имя сервера
-     */
-    public static int getServerOnline(@NonNull String serverName) {
-        return SERVERS_ONLINE_MAP.getOrDefault(serverName.toLowerCase(), -1);
-    }
-
-    /**
-     * Получить общую сумму онлайна всех
-     * подключенных серверов по Bungee
-     *
-     * @return - Общий онлайн Bungee
-     */
-    public static int getGlobalOnline() {
-        return getServerOnline("GLOBAL");
     }
 
 

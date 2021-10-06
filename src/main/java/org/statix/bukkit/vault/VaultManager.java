@@ -48,6 +48,15 @@ public final class VaultManager extends AbstractCacheManager<VaultPlayer> {
          return this.playerName;
       }
 
+      @Override
+      public String getDisplayName() {
+         return getPrefix() + getName();
+      }
+      @Override
+      public String getDisplay() {
+         return getDisplayName();
+      }
+
       public String getPrefix() {
          return VaultManager.this.chatManager.getVaultChat().getPlayerPrefix((String)null, this.playerName);
       }

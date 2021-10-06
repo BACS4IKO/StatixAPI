@@ -58,6 +58,7 @@ public class TestOther {
         fakePlayer.setSneaking(true); //Встать на SHIFT
         fakePlayer.setBurning(true); //Зажечь NPC
         fakePlayer.setInvisible(false); //Сделать видимым
+        fakePlayer.enableAutoLooking(10.5); // Сделать чтобы наблюдал за всеми в радиусе 10.5 блоков
         fakePlayer.setClickAction(player -> { //Действие при клике на FakePlayer
             player.sendMessage("Удаляю для вас NPC, не надо было кликать с:"); //Отправить сообщение игроку, который кликнул по FakePlayer
             fakePlayer.removeReceivers(player); //Скрыть FakePlayer от игрока, который кликнул по нему

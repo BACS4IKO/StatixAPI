@@ -3,6 +3,10 @@ package org.statix.bukkit.vault;
 public interface VaultPlayer {
    String getName();
 
+   String getDisplayName();
+
+   String getDisplay();
+
    String getPrefix();
 
    String getSuffix();

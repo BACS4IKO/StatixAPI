@@ -32,6 +32,7 @@ public class TestMegaCommand extends BaseMegaCommand<Player> {
         npc.addReceivers(p);
     }
     @CommandArgument(aliases = "spawnholo")
+    @AliasPermission(permission = "alias.use")
     protected void holo(Player p, String[] args) {
         SimpleHolographic simpleHolographic = new SimpleHolographic(p.getLocation());
         simpleHolographic.addOriginalHolographicLine("LOLOL");

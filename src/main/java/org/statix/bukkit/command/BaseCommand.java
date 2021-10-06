@@ -52,7 +52,7 @@ public abstract class BaseCommand<S extends CommandSender>
      * @param aliases - алиасы
      */
     public BaseCommand(boolean constructorRegister, String command, String... aliases) {
-        super(command, "Command registered by StonlexAPI", ("/").concat(command), Arrays.asList(aliases));
+        super(command, "Command registered by StatixAPI, by ItzStonlex and IStatix", ("/").concat(command), Arrays.asList(aliases));
 
         if (constructorRegister) {
             CommandManager.INSTANCE.registerCommand(this, command, aliases);

@@ -57,9 +57,9 @@ vp.addGroup("default"); // Добавляем игроку группу default
 ### 3 | Самый простой, через BaseVault
 You don't have to go to the VaultManager and get the VaultPlayer type, you can make it even easier!:
 ```java
-BaseVault bv = new BaseVault(); // Получам BaseVault
+BaseVault bv = new BaseVault(); // Получам VaultUtil
 bv.addGroup(player.getName(), "default"); // Добавляем игроку группу default
-// Это далеко не все функции VaultPlayer, подробнее в классе: BaseVault
+// Это далеко не все функции VaultPlayer, подробнее в классе: VaultUtil
 ```
 
 ***

@@ -3,6 +3,7 @@ package org.statix.bukkit.command;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import org.bukkit.command.CommandSender;
+import org.statix.bukkit.command.annotation.CommandCooldown;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -90,9 +91,7 @@ public abstract class BaseMegaCommand<S extends CommandSender>
 
         if (argumentMethod != null) {
             argumentMethod.invoke(this, commandSender, Arrays.copyOfRange(args, minimalArgsCount + 1, args.length));
-
         } else {
-
             noArgumentMessage.accept(commandSender);
         }
     }
@@ -111,4 +110,23 @@ public abstract class BaseMegaCommand<S extends CommandSender>
 
         String[] aliases() default {};
     }
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.METHOD)
+    public @interface AliasPermission {
+
+        String permission();
+        String message() default "§cОшибка, у Вас недостаточно прав!";
+    }
+    //@Retention(RetentionPolicy.RUNTIME)
+    //@Target(ElementType.METHOD)
+    //public @interface AliasCooldown {
+    //    long cooldownMillis();
+    //    CommandCooldown.ReceiverModifier receiverModifier() default CommandCooldown.ReceiverModifier.ONLY_SENDER;
+    //
+    //    enum ReceiverModifier {
+    //
+    //        ONLY_SENDER,
+    //        PUBLIC;
+    //    }
+    //}
 }
