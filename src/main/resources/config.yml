@@ -1,8 +1,0 @@
-# <i> StatixAPI by iStatix, ItzStonlex
-#
-# <i> Permissions:
-#    * statixapi.langupdate - command /updatelang
-#    * statixapi.crash - command /crash
-StatixAPI:
-  TestCommands: true
-  CrashCommand: true

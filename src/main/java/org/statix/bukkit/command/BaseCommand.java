@@ -20,7 +20,7 @@ public abstract class BaseCommand<S extends CommandSender>
 
     @Getter
     protected final String cooldownName
-            = ("@StonlexCommand=").concat(RandomStringUtils.randomAlphanumeric(64));
+            = ("@Command=").concat(RandomStringUtils.randomAlphanumeric(64));
 
 
     /**

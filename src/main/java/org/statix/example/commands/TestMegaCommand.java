@@ -1,9 +1,13 @@
 package org.statix.example.commands;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.statix.bukkit.StatixAPI;
 import org.statix.bukkit.command.BaseMegaCommand;
-import org.statix.bukkit.holographic.ProtocolHolographic;
+import org.statix.bukkit.holographic.ProtocolHolographicLine;
+import org.statix.bukkit.holographic.impl.SimpleHolographic;
+import org.statix.bukkit.protocollib.entity.impl.FakePlayer;
+import org.statix.bukkit.utility.ItemUtil;
 import org.statix.example.menu.TestMenu;
 
 import java.util.function.Consumer;
@@ -21,22 +25,28 @@ public class TestMegaCommand extends BaseMegaCommand<Player> {
         player.sendMessage(" §e /megatest gui");
     }
 
+    @CommandArgument(aliases = "spawnnpc")
+    protected void npc(Player p, String[] args) {
+        FakePlayer npc = new FakePlayer("IStatix", p.getLocation());
+        //npc.setAlwaysLooking(true, 5);
+        npc.addReceivers(p);
+    }
     @CommandArgument(aliases = "spawnholo")
     protected void holo(Player p, String[] args) {
-        ProtocolHolographic hologram = StatixAPI.createSimpleHolographic(p.getLocation());
+        SimpleHolographic simpleHolographic = new SimpleHolographic(p.getLocation());
+        simpleHolographic.addOriginalHolographicLine("LOLOL");
+        simpleHolographic.addOriginalHolographicLine("ITZ A WORKING");
+        simpleHolographic.addOriginalHolographicLine("A");
+        simpleHolographic.addOriginalHolographicLine("LOLOL");
+        for (ProtocolHolographicLine line : simpleHolographic.getHolographicLines()) {
+            line.getFakeArmorStand().setClickAction(player -> {
+                player.sendMessage("Воу, это работает, иди поспи =))");
+            });
+        }
+        simpleHolographic.addReceivers(p);
+        p.sendMessage("§6§lStatixAPI:: §fВам была заспавнена голограмма");
 
-        hologram.addTextLine("§6§lStatixAPI");
-        hologram.addEmptyLine();
-        hologram.addTextLine("§7Уникальная разработка, StatixAPI");
-        hologram.addTextLine("§7которая создала для вас пакетую голограмму");
-        hologram.addEmptyLine(); //пустая строка
-        hologram.addTextLine("§c§lx §cНажмите, чтобы удалить голограмму.");
-        hologram.setClickAction(player -> {
-            player.sendMessage("§cКлик по голограмме прошел, удаляем для вас голограмму З:"); //Отправитб сообщение игроку
-            hologram.removeReceivers(player);
-        });
-        hologram.addViewers(p);
-        p.sendMessage("§6§lStatixAPI:: §fДля вас была создана голограмма :)");
+
     }
 
     @CommandArgument

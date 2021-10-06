@@ -1,12 +1,12 @@
 package org.statix.bukkit;
 
 import com.comphenix.protocol.ProtocolLibrary;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonValueFormatVisitor;
 import lombok.Getter;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
@@ -23,8 +23,6 @@ import org.statix.bukkit.listeners.PlayerListener;
 import org.statix.bukkit.protocollib.entity.listener.FakeEntityListener;
 import org.statix.bukkit.event.EventRegisterManager;
 import org.statix.bukkit.game.GameAPI;
-import org.statix.bukkit.protocollib.packet.crash.Protocol;
-import org.statix.bukkit.protocollib.packet.crash.ProtocolBuilder;
 import org.statix.bukkit.protocollib.team.ProtocolTeam;
 import org.statix.bukkit.scoreboard.BaseScoreboardBuilder;
 import org.statix.bukkit.scoreboard.listener.BaseScoreboardListener;
@@ -57,7 +55,7 @@ public final class StatixAPI extends JavaPlugin {
     private static final CommandManager COMMAND_MANAGER = CommandManager.INSTANCE;
 
     @Getter
-    private static final ProtocolHolographicManager hologramManager = (ProtocolHolographicManager.INSTANCE);
+    private static final ProtocolHolographicManager hologramManager = ProtocolHolographicManager.INSTANCE;
 
     @Getter
     private static final BaseInventoryManager inventoryManager = new BaseInventoryManager();
@@ -78,9 +76,6 @@ public final class StatixAPI extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        saveDefaultConfig();
-        getLogger().info("Successful load config.yml file");
-
         inventoryManager.startInventoryUpdateTask(this);
         getLogger().info("Successful start Inventory Update");
 
@@ -96,7 +91,6 @@ public final class StatixAPI extends JavaPlugin {
         getLogger().info("Successful register Vault");
 
         FakeEntityListener fakeEntityListener = new FakeEntityListener();
-
         ProtocolLibrary.getProtocolManager().addPacketListener(fakeEntityListener);
         getServer().getPluginManager().registerEvents(fakeEntityListener, this);
         getLogger().info("Successful register FakeEntityListener");
@@ -108,19 +102,10 @@ public final class StatixAPI extends JavaPlugin {
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getLogger().info("Successful start cho-to tam =)");
 
-        if (getConfig().getBoolean("StatixAPI.TestCommands")) {
-            registerCommand(new TestCommand());
-            registerCommand(new TestMegaCommand());
-            getLogger().info("Successful start register TestCommands");
-        }
-
-        // Разве вам это нужно?
-        //if (getConfig().getBoolean("StatixAPI.CrashCommand")) {
-        //    registerCommand(new CrashCommand());
-        //    getLogger().info("Successful start register CrashCommand");
-        //}
+        registerCommand(new TestCommand());
+        registerCommand(new TestMegaCommand());
         registerCommand(new UpdatelangCommand());
-        getLogger().info("Successful start register UpdateLangCommand");
+        getLogger().info("Successful register UpdateLangCommand");
 
 
         getLogger().info("| StatixAPI is enabled!");
@@ -156,6 +141,10 @@ public final class StatixAPI extends JavaPlugin {
      *
      * @param location - начальная локация голограммы
      */
+    public static ProtocolHolographic createBaseHolographic(@NonNull Location location) {
+        return new SimpleHolographic(location);
+    }
+
     public static ProtocolHolographic createSimpleHolographic(@NonNull Location location) {
         return new SimpleHolographic(location);
     }
@@ -286,13 +275,7 @@ public final class StatixAPI extends JavaPlugin {
      * @param crash - Игрок клиент которого мы крашим
      */
     public void crashPlayer(Player crash) {
-        int id = 12345;
-        Protocol p = ProtocolBuilder.getInstance();
-        Location spawnLoc = crash.getLocation();
-        spawnLoc.add(spawnLoc.getDirection().multiply(-10));
-        p.spawnEntity(crash, spawnLoc, id);
-        p.setPassenger(crash, id, crash.getEntityId());
-        p.teleport(crash, id, crash.getLocation().add(9999999.0D, 999999.0D, 9999999.0D));
+        // logic..
     }
 
 }

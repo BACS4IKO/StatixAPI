@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.statix.base.localization.Localization;
 import org.statix.base.utility.DateUtil;
 import org.statix.bukkit.StatixAPI;
-import org.statix.bukkit.holographic.ProtocolHolographic;
 import org.statix.bukkit.protocollib.entity.impl.FakePlayer;
 import org.statix.bukkit.scoreboard.BaseScoreboardBuilder;
 import org.statix.bukkit.scoreboard.BaseScoreboardScope;
@@ -59,7 +58,6 @@ public class TestOther {
         fakePlayer.setSneaking(true); //Встать на SHIFT
         fakePlayer.setBurning(true); //Зажечь NPC
         fakePlayer.setInvisible(false); //Сделать видимым
-
         fakePlayer.setClickAction(player -> { //Действие при клике на FakePlayer
             player.sendMessage("Удаляю для вас NPC, не надо было кликать с:"); //Отправить сообщение игроку, который кликнул по FakePlayer
             fakePlayer.removeReceivers(player); //Скрыть FakePlayer от игрока, который кликнул по нему
