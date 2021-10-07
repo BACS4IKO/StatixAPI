@@ -106,12 +106,12 @@ public abstract class FakeBaseEntity implements Cloneable, FakeEntity {
     public synchronized void disableAutoLooking(){
         this.autoLooking = false;
         this.autoLookingDistance = 0;
-        look(getLocation().getYaw(), getLocation().getPitch());
+        look(location);
     }
 
     @Override
     public synchronized void resetLooking(){
-        look(getLocation().getYaw(), getLocation().getPitch());
+        look(location);
     }
 
     @Override

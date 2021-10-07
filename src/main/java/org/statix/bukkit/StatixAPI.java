@@ -27,6 +27,7 @@ import org.statix.bukkit.scoreboard.BaseScoreboardBuilder;
 import org.statix.bukkit.scoreboard.listener.BaseScoreboardListener;
 import org.statix.bukkit.types.CuboidRegion;
 import org.statix.bukkit.utility.ItemUtil;
+import org.statix.bukkit.utility.VaultUtil;
 import org.statix.bukkit.vault.VaultManager;
 import org.statix.bukkit.vault.VaultPlayer;
 import org.statix.example.commands.TestCommand;
@@ -81,16 +82,13 @@ public final class StatixAPI extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new BaseInventoryListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
-
-
-
         ProtocolLibrary.getProtocolManager().addPacketListener(fakeEntityListener);
         getServer().getPluginManager().registerEvents(fakeEntityListener, this);
         getServer().getPluginManager().registerEvents(ProtocolTeam.TEAM_LISTENER, this);
         getServer().getPluginManager().registerEvents(new BaseScoreboardListener(), this);
 
         //registerCommand(new TestCommand());
-        //registerCommand(new TestMegaCommand());
+        registerCommand(new TestMegaCommand());
         //registerCommand(new UpdatelangCommand());
 
 
